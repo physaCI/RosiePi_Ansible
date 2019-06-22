@@ -1,5 +1,5 @@
 # RosiePi Ansible Playbook
-# To be used with `ansible-pull`
+# To be used with 'ansible-pull'
 # - Create a user to be used by ansible
 
 - name: create ansible user

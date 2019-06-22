@@ -1,21 +1,21 @@
 # RosiePi Ansible Playbook
-# To be used with `ansible-pull`
+# To be used with 'ansible-pull'
 # - Installs/pulls necessary GitHub repositories
 
 - hosts: localhost
   become: true
-- tasks:
-  - name: Clone RosieApp
-    git:
-      repo: 'https://github.com/sommersoft/RosiePiApp.git'
-      dest: /home/rosie/rosie_app
-      accept_hostkey: yes
-      depth: 1
+  tasks:
+    - name: Clone RosieApp
+      git:
+        repo: 'https://github.com/sommersoft/RosiePiApp.git'
+        dest: /home/rosie/rosie_app
+        accept_hostkey: yes
+        depth: 1
 
-  - name: Clone RosiePi
-    git:
-      repo: 'https://github.com/sommersoft/RosiePi.git'
-      dest: /home/rosie/rosie_pi
-      accept_hostkey: yes
-      depth: 1
-      recursive: no
+    - name: Clone RosiePi
+      git:
+        repo: 'https://github.com/sommersoft/RosiePi.git'
+        dest: /home/rosie/rosie_pi
+        accept_hostkey: yes
+        depth: 1
+        recursive: no

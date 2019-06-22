@@ -1,5 +1,5 @@
 # RosiePi Ansible Playbook
-# To be used with `ansible-pull`
+# To be used with 'ansible-pull'
 # - Installs/upgrades required packages
 
 - hosts: localhost
@@ -13,9 +13,9 @@
 
     - name: Install apt packages
       apt:
-        - update_cache: yes
-        - name: {{ item }}
-        - only_upgrade: yes
+        update_cache: yes
+        name: "{{ item }}"
+        only_upgrade: yes
       with_items:
         - git
         - gettext

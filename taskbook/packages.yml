@@ -1,35 +1,27 @@
 # RosiePi Ansible Playbook
-# To be used with `ansible-pull`
+# To be used with 'ansible-pull'
 # - Installs/upgrades required packages
-
+---
 - hosts: localhost
   become: true
   tasks:
-    - name: Install apt packages
-      apt:
-        - name: {{ item }}
-        - only_upgrade: yes
-      with_items:
-        - npm
-        - git
-        - python3
-        - ruby
+  - name: Install apt packages
+    apt:
+      name: "{{ item }}"
+      only_upgrade: yes
+    with_items:
+      - npm
+      - git
+      - python3
+      - ruby
 
-    - name: Install npm packages
-      npm:
-        - ruby
+  - name: Install npm packages
+    npm:
+      name: ruby
 
-    - name: Update RubyGems
-      command: gem update --system
+  - name: Update RubyGems
+    command: gem update --system
 
-    - name: Install bundler
-      gem:
-        - name: {{ item }}
-          with_items:
-            - bundler
-
-    #- name: Install pip packages
-    #  pip:
-    #    - name: {{ item }}
-    #    with_items:
-    #      -
+  - name: Install bundler
+    gem:
+      name: bundler
