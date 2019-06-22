@@ -1,0 +1,13 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Sets/updates the cron job that runs ansible-pull
+
+- hosts: localhost
+  become: true
+  tasks:
+    - name: install cron job
+      cron:
+        user: "rosie"
+        name: "ansible provision"
+        job: "ansible-pull -o -U https://github.com/sommersoft/RosiePi_Ansible.git"
+        hour: 2
