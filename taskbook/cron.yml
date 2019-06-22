@@ -7,6 +7,7 @@
   tasks:
     - name: install cron job
       cron:
-        #- user: "rosie-ansible"
+        user: "rosie"
         name: "ansible provision"
-        job: "/usr/bin/rosie -o -U https://github.com/sommersoft/RosiePi_Ansible.git"
+        job: "ansible-pull -o -U https://github.com/sommersoft/RosiePi_Ansible.git"
+        hour: 2
