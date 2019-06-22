@@ -17,7 +17,11 @@
 
   - name: Install npm packages
     npm:
-      name: ruby
+      name: "{{ item }}"
+      global: yes
+      with_items:
+        - ruby
+        - smee-client
 
   - name: Update RubyGems
     command: gem update --system

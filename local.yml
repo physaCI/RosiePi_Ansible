@@ -7,6 +7,20 @@
     - name: update resposiories
       apt: update_cache=yes
       changed_when: False
+
+    - name: find smee process
+      command: ps -C node -o pid,command
+      register: smee_process
+
+    - name: kill smee if running
+      command:
+        args:
+          - kill
+          - -9
+          - "{{ item | regex_search('^(\\d+)') }}"
+      with_items: smee_process.stdout_lines
+      when: smee_process.stdout.find("smee") != -1
+
   tasks:
 
 - name: Run cron

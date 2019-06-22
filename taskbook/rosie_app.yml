@@ -9,6 +9,14 @@
       bundler:
         gemfile: /home/rosie/rosie_app/RosiePiApp/Gemfile
 
+    - name: Start smee
+      command:
+        args:
+          - smee
+          - --url https://smee.io/CdzlVqzEs6VH88Y
+          - --path /event_handler
+          - --port 3000
+
     - name: Check if server is already running
       command: ps -C ruby -o command
       register: server_running
