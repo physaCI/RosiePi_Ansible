@@ -1,0 +1,17 @@
+# RosiePi Ansible Playbook
+# To be used with `ansible-pull`
+
+- hosts: localhost
+  become: true
+  pre_tasks:
+    - name: update resposiories
+      apt: update_cache=yes
+      changed_when: False
+
+  tasks:
+    #- include: taskbook/user.yml
+    - include: taskbook/cron.yml
+    - include: taskbook/packages.yml
+    - include: taskbook/git_repos.yml
+    - include: taskbook/rosie_pi.yml
+    - include: taskbook/rosie_app.yml

@@ -1,0 +1,26 @@
+# RosiePi Ansible Playbook
+# To be used with `ansible-pull`
+# - Installs/upgrades required packages
+
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Add gcc-arm-embedded repository
+      apt_repository:
+        repo: ppa:team-gcc-arm-embedded/ppa
+        when: (ansible_facts['distribution'] == "Debian") or
+              (ansible_facts['distribution'] == "Ubuntu")
+
+    - name: Install apt packages
+      apt:
+        - update_cache: yes
+        - name: {{ item }}
+        - only_upgrade: yes
+      with_items:
+        - git
+        - gettext
+        - gcc-arm-embedded
+
+    - name: Install pip packages
+      pip:
+        name: huffman

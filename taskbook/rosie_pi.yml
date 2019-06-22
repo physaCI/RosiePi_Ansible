@@ -1,0 +1,12 @@
+# RosiePi Ansible Playbook
+# To be used with `ansible-pull`
+# - Handles tasks associated with RosiePi
+
+- hosts: localhost
+  become: yes
+- tasks:
+  - name: pip RosiePi locally
+    pip:
+      name: /home/rosie/rosie_pi/RosiePi/.
+      editable: yes
+      extra_args: --user
