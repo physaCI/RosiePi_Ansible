@@ -19,7 +19,7 @@
       command:
         argv:
           - pgrep
-          - "{{ item | map('match', smee_pattern) | select('string') }}"
+          - "{{ item | map('regex_search', smee_pattern) | select('string') | join }}"
       with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
       check_mode: no
