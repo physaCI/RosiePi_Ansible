@@ -18,7 +18,7 @@
         smee_pattern: '\\b(\\d+).*smee'
       command:
         argv:
-          - pgrep
+          - ps
           - "{{ smee_process.stdout | regex_search('\\b(\\d+)(?=.*smee)') }}"
       #with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
@@ -29,8 +29,7 @@
         argv:
           - kill
           - -9
-          - "{{ item | regex_search('^\\s(\\d+).*smee') }}"
-      with_items: smee_process.stdout_lines
+          - "{{ smee_process.stdout | regex_search('\\b(\\d+)(?=.*smee)') }}"
       when: smee_process.stdout.find("smee") != -1
 
   tasks:
