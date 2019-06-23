@@ -18,7 +18,7 @@
           - --port 3000
 
     - name: Check if server is already running
-      command: ps -C ruby -o command
+      command: pgrep -a ruby
       register: server_running
       check_mode: no
 
