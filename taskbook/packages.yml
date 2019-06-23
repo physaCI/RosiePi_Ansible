@@ -19,9 +19,9 @@
     npm:
       name: "{{ item }}"
       global: yes
-      with_items:
-        - ruby
-        - smee-client
+    with_items:
+      - ruby
+      - smee-client
 
   - name: Update RubyGems
     command: gem update --system
