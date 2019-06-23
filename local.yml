@@ -15,12 +15,12 @@
 
     - name: test ps parsing during check
       vars:
-        smee_pattern: '^\\s(\\d+).*smee'
+        smee_pattern: '\\b(\\d+).*smee'
       command:
         argv:
           - pgrep
-          - "{{ item | map('regex_search', smee_pattern) | select('string') | join }}"
-      with_items: smee_process.stdout_lines
+          - "{{ smee_process.stdout | regex_search(smee_pattern) | first }}"
+      #with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
       check_mode: no
 
