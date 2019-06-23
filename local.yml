@@ -8,10 +8,15 @@
       apt: update_cache=yes
       changed_when: False
 
-    - name: find smee process
-      command: ps -C node -o pid,command
-      register: smee_process
-      check_mode: no
+    - name: check if smee is running
+      block:
+        - name: find smee process
+          command: ps -C node -o pid,command
+          register: smee_process
+          check_mode: no
+      rescue:
+        debug:
+          msg: "smee isn't running."
 
     - name: test ps parsing during check
       vars:
