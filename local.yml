@@ -15,8 +15,8 @@
           register: smee_process
           check_mode: no
       rescue:
-        debug:
-          msg: "smee isn't running."
+        - debug:
+            msg: "smee isn't running."
 
     - name: test ps parsing during check
       vars:
