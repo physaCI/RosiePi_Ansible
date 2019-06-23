@@ -2,7 +2,7 @@
 # To be used with 'ansible-pull'
 # - Handles tasks associated with RosieApp
 
-- hosts: localhost
+- hosts: rosie, thespacebetween
   become: yes
   tasks:
     - name: Install server gems with bundle
