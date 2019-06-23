@@ -1,7 +1,7 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
 
-- hosts: rosie, thespacebetween
+- hosts: all
   become: true
   pre_tasks:
     - name: update resposiories
