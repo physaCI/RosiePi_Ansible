@@ -2,7 +2,7 @@
 # To be used with 'ansible-pull'
 # - Handles tasks associated with RosiePi
 
-- hosts: all
+- hosts: localhost
   become: yes
   tasks:
     - name: pip RosiePi locally

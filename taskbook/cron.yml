@@ -2,7 +2,7 @@
 # To be used with 'ansible-pull'
 # - Sets/updates the cron job that runs ansible-pull
 
-- hosts: all
+- hosts: localhost
   become: true
   tasks:
     - name: install cron job

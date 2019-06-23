@@ -2,7 +2,7 @@
 # To be used with 'ansible-pull'
 # - Installs/upgrades required packages
 ---
-- hosts: all
+- hosts: localhost
   become: true
   tasks:
   - name: Install apt packages
