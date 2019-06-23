@@ -17,7 +17,7 @@
       command:
         argv:
           - pgrep
-          - "{{ item | regex_search('^(\\d+)') }}"
+          - "{{ item | regex_search('^\\s(\\d+).*smee') }}"
       with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
       check_mode: no
@@ -27,7 +27,7 @@
         argv:
           - kill
           - -9
-          - "{{ item | regex_search('^(\\d+)') }}"
+          - "{{ item | regex_search('^\\s(\\d+).*smee') }}"
       with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
 
