@@ -11,7 +11,7 @@
 
     - name: Start smee
       command:
-        args:
+        argv:
           - smee
           - --url https://smee.io/CdzlVqzEs6VH88Y
           - --path /event_handler

@@ -15,7 +15,7 @@
 
     - name: kill smee if running
       command:
-        args:
+        argv:
           - kill
           - -9
           - "{{ item | regex_search('^(\\d+)') }}"
