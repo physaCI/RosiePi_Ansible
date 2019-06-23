@@ -13,6 +13,15 @@
       register: smee_process
       check_mode: no
 
+    - name: test ps parsing during check
+      command:
+        argv:
+          - pgrep
+          - "{{ item | regex_search('^(\\d+)') }}"
+      with_items: smee_process.stdout_lines
+      when: smee_process.stdout.find("smee") != -1
+      check_mode: no
+
     - name: kill smee if running
       command:
         argv:
