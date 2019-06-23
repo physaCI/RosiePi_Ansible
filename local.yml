@@ -2,7 +2,6 @@
 # To be used with 'ansible-pull'
 
 - hosts: localhost
-  ansible_python_interpreter: /usr/bin/python3
   become: true
   pre_tasks:
     - name: update resposiories
