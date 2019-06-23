@@ -19,7 +19,7 @@
       command:
         argv:
           - pgrep
-          - "{{ smee_process.stdout | regex_search(smee_pattern) | first }}"
+          - "{{ smee_process.stdout | regex_search('\\b(\\d+).*smee') | first }}"
       #with_items: smee_process.stdout_lines
       when: smee_process.stdout.find("smee") != -1
       check_mode: no
