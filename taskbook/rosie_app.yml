@@ -20,6 +20,7 @@
     - name: Check if server is already running
       command: ps -C ruby -o command
       register: server_running
+      check_mode: no
 
     - name: Start server
       command: rerun --quiet --no-notify --pattern "**/*.{rb, py, ru}" /home/rosie/rosie_app/RosiePiApp/rosieapp_server.rb

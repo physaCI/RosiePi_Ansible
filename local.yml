@@ -11,6 +11,7 @@
     - name: find smee process
       command: ps -C node -o pid,command
       register: smee_process
+      check_mode: no
 
     - name: kill smee if running
       command:
