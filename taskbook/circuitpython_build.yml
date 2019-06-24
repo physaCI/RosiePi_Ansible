@@ -1,6 +1,6 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Installs/upgrades required packages
+# - Installs/upgrades required packages for building CircuitPython firmware
 
 - hosts: localhost
   become: true
@@ -14,12 +14,8 @@
     - name: Install apt packages
       apt:
         update_cache: yes
-        name: "{{ item }}"
+        name: [git, gettext, gcc-arm-embedded]
         only_upgrade: yes
-      with_items:
-        - git
-        - gettext
-        - gcc-arm-embedded
 
     - name: Install pip packages
       pip:

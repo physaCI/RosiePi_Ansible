@@ -7,21 +7,13 @@
   tasks:
   - name: Install apt packages
     apt:
-      name: "{{ item }}"
+      name: [npm, git, python3, ruby]
       only_upgrade: yes
-    with_items:
-      - npm
-      - git
-      - python3
-      - ruby
 
   - name: Install npm packages
     npm:
-      name: "{{ item }}"
+      name: smee-client
       global: yes
-    with_items:
-      - ruby
-      - smee-client
 
   - name: Update RubyGems
     command: gem update --system
