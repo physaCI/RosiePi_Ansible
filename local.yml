@@ -19,8 +19,6 @@
             msg: "smee isn't running."
 
     - name: test ps parsing during check
-      vars:
-        smee_pattern: '\\b(\\d+).*smee'
       command:
         argv:
           - ps
@@ -37,12 +35,12 @@
           - "{{ smee_process.stdout | regex_search('\\b(\\d+)(?=.*smee)') }}"
       when: smee_process.stdout.find("smee") != -1
 
-  tasks:
-
 - name: Run cron
   import_playbook: taskbook/cron.yml
 - name: Run packages
   import_playbook: taskbook/packages.yml
+- name: Run circuitpython_build
+  import_playbook: taskbook/circuitpython_build.yml
 - name: Run git_repos
   import_playbook: taskbook/git_repos.yml
 - name: Run rosie_pi
