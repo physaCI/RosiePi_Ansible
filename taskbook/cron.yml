@@ -9,5 +9,5 @@
       cron:
         user: "rosie"
         name: "ansible provision"
-        job: "ansible-pull -o -U https://github.com/sommersoft/RosiePi_Ansible.git"
-        hour: 2
+        job: 'ansible-pull -o -U https://github.com/sommersoft/RosiePi_Ansible.git -e "ansible_python_interpreter=/usr/bin/python3"'
+        hour: "2"
