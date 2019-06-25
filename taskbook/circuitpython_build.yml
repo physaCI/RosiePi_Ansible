@@ -3,18 +3,53 @@
 # - Installs/upgrades required packages for building CircuitPython firmware
 
 - hosts: localhost
+  vars:
+    gcc_install_dir: /opt/gcc-arm-embedded
+    gcc_top_folder_name: gcc-arm-none-eabi-7-2018-q2-update
+    gcc_dwnld_url: "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2?revision=bc2c96c0-14b5-4bb4-9f18-bceb4050fee7?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2018-q2-update"
+    gcc_file_name: gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
   become: true
   tasks:
-    - name: Add gcc-arm-embedded repository
-      apt_repository:
-        repo: ppa:team-gcc-arm-embedded/ppa
-        when: (ansible_facts['distribution'] == "Debian") or
-              (ansible_facts['distribution'] == "Ubuntu")
+    - name: Check for /opt/gcc-arm-embedded directory
+      stat:
+        path: {{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}
+        get_checksum: no
+      register: gcc_local
+
+    - name: Create /opt/gcc-arm-embedded if it doesn't exist
+      command:
+        argv:
+          - sudo
+          - mkdir
+          - {{ gcc_install_dir }}
+      when: gcc_local.stat.isdir is not defined and not gcc_local.stat.isdir
+
+    - name: Download gcc-arm-embedded from ARM (Linux)
+      command:
+        argv:
+          - wget
+          - -p {{ gcc_install_dir }}
+          - {{ gcc_dwnld_url }}
+      when: gcc_local.stat.isdir is not defined and not gcc_local.stat.isdir
+
+    - name: Unzip gcc-arm-embedded tarball
+      command:
+        argv:
+          - tar
+          - xjf
+          - {{ [gcc_install_dir, gcc_file_name] | join("/") }}
+      when: gcc_local.stat.isdir is not defined and not gcc_local.st
+
+    - name: Place gcc-arm-embedded on the PATH
+      command:
+        argv:
+          - export
+          - PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}/bin
 
     - name: Install apt packages
       apt:
         update_cache: yes
-        name: [git, gettext, gcc-arm-embedded]
+        name: [git, gettext]
         only_upgrade: yes
 
     - name: Install pip packages
