@@ -12,7 +12,7 @@
   tasks:
     - name: Check for /opt/gcc-arm-embedded directory
       stat:
-        path: {{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}
+        path: "{{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}"
         get_checksum: no
       register: gcc_local
 
@@ -21,15 +21,15 @@
         argv:
           - sudo
           - mkdir
-          - {{ gcc_install_dir }}
+          - "{{ gcc_install_dir }}"
       when: gcc_local.stat.isdir is not defined and not gcc_local.stat.isdir
 
     - name: Download gcc-arm-embedded from ARM (Linux)
       command:
         argv:
           - wget
-          - -p {{ gcc_install_dir }}
-          - {{ gcc_dwnld_url }}
+          - "-p {{ gcc_install_dir }}"
+          - "{{ gcc_dwnld_url }}"
       when: gcc_local.stat.isdir is not defined and not gcc_local.stat.isdir
 
     - name: Unzip gcc-arm-embedded tarball
@@ -37,14 +37,14 @@
         argv:
           - tar
           - xjf
-          - {{ [gcc_install_dir, gcc_file_name] | join("/") }}
+          - "{{ [gcc_install_dir, gcc_file_name] | join("/") }}"
       when: gcc_local.stat.isdir is not defined and not gcc_local.st
 
     - name: Place gcc-arm-embedded on the PATH
       command:
         argv:
           - export
-          - PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}/bin
+          - "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join("/") }}/bin"
 
     - name: Install apt packages
       apt:
