@@ -15,6 +15,8 @@
         path: "{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}"
         get_checksum: no
       register: gcc_local
+      debug:
+        msg: gcc_local
 
     - name: Create /opt/gcc-arm-embedded if it doesn't exist
       command:
