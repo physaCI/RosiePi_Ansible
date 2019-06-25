@@ -17,7 +17,7 @@
       register: gcc_local
     - name: What is gcc_local
       debug:
-        msg: gcc_local
+        msg: "{{ gcc_local }}"
 
     - name: Create /opt/gcc-arm-embedded if it doesn't exist
       command:
