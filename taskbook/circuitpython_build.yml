@@ -41,8 +41,8 @@
           - tar
           - xjf
           - "{{ [gcc_install_dir, gcc_file_name] | join('/') }}"
+        warn: false
       when: not gcc_local.stat.exists
-      warn: false
 
     - name: Place gcc-arm-embedded on the PATH
       command:
