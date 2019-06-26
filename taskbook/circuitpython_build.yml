@@ -31,7 +31,7 @@
       command:
         argv:
           - wget # ansible recommends using get_url
-          - "-p {{ gcc_install_dir }}"
+          - "-P {{ gcc_install_dir }}"
           - "{{ gcc_dwnld_url }}"
       when: not gcc_local.stat.exists
 
