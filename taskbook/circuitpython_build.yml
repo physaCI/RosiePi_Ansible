@@ -12,7 +12,7 @@
   tasks:
     - name: Check for /opt/gcc-arm-embedded directory
       stat:
-        path: "{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}"
+        path: "{{ gcc_install_dir }}"
         get_checksum: no
       register: gcc_folder
     - name: What is gcc_folder
@@ -28,7 +28,7 @@
 
     - name: Check for gcc-arm-embedded tarball
       stat:
-        path: "{{ [gcc_install_dir, gcc_top_folder_name, gcc_file_name] | join('/') }}"
+        path: "{{ [gcc_install_dir, gcc_file_name] | join('/') }}"
         get_checksum: no
       register: gcc_local
     - name: What is gcc_local
