@@ -20,7 +20,6 @@
         msg: "{{ gcc_folder }}"
 
     - name: Create /opt/gcc-arm-embedded if it doesn't exist
-      become_user: sudo
       command:
         argv:
           - mkdir
@@ -37,7 +36,6 @@
         msg: "{{ gcc_local }}"
 
     - name: Download gcc-arm-embedded from ARM (Linux)
-      become_user: sudo
       get_url:
         dest: "{{ [gcc_install_dir, gcc_file_name] | join('/') }}"
         url: "{{ gcc_dwnld_url }}"
