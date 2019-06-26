@@ -46,8 +46,10 @@
       command:
         argv:
           - tar
-          - xjf
+          - -xjf
           - "{{ [gcc_install_dir, gcc_file_name] | join('/') }}"
+          - -C
+          - - "{{ gcc_install_dir }}"
         warn: false
       when: not gcc_local.stat.exists
 
