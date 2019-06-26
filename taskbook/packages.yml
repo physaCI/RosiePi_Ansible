@@ -8,7 +8,6 @@
   - name: Install apt packages
     apt:
       name: [npm, git, python3, ruby]
-      only_upgrade: yes
 
   - name: Install npm packages
     npm:

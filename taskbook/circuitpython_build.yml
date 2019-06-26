@@ -22,7 +22,7 @@
     - name: Create /opt/gcc-arm-embedded if it doesn't exist
       command:
         argv:
-          - sudo
+          - sudo # ansible recommends become_user
           - mkdir
           - "{{ gcc_install_dir }}"
       when: not gcc_local.stat.exists
@@ -30,7 +30,7 @@
     - name: Download gcc-arm-embedded from ARM (Linux)
       command:
         argv:
-          - wget
+          - wget # ansible recommends using get_url
           - "-p {{ gcc_install_dir }}"
           - "{{ gcc_dwnld_url }}"
       when: not gcc_local.stat.exists
@@ -42,6 +42,7 @@
           - xjf
           - "{{ [gcc_install_dir, gcc_file_name] | join('/') }}"
       when: not gcc_local.stat.exists
+      warn: false
 
     - name: Place gcc-arm-embedded on the PATH
       command:
@@ -54,7 +55,6 @@
       apt:
         update_cache: yes
         name: [git, gettext]
-        only_upgrade: yes
 
     - name: Install pip packages
       pip:
