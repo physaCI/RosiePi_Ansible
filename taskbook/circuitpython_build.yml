@@ -54,7 +54,7 @@
       when: not gcc_local.stat.exists
 
     - name: Check if gcc-arm-embedded is on the PATH
-      command: echo $PATH
+      shell: echo $PATH
       register: env_path
 
     - name: Place gcc-arm-embedded on the PATH
