@@ -54,10 +54,7 @@
       when: not gcc_local.stat.exists
 
     - name: Place gcc-arm-embedded on the PATH
-      command:
-        argv:
-          - export
-          - "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
+      shell: export "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
       when: not gcc_local.stat.exists
 
     - name: Install apt packages
