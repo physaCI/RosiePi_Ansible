@@ -7,6 +7,6 @@
   tasks:
     - name: pip RosiePi locally
       pip:
-        name: /home/rosie/rosie_pi/RosiePi/.
+        name: /home/rosie/rosie_pi/.
         editable: yes
         extra_args: --user

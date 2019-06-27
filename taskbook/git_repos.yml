@@ -11,6 +11,7 @@
         dest: /home/rosie/rosie_app
         accept_hostkey: yes
         depth: 1
+        version: initial_template # current dev branch
 
     - name: Clone RosiePi
       git:
