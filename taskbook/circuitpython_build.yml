@@ -53,9 +53,13 @@
         warn: false
       when: not gcc_local.stat.exists
 
+    - name: Check if gcc-arm-embedded is on the PATH
+      command: echo $PATH
+      register: env_path
+
     - name: Place gcc-arm-embedded on the PATH
       shell: export "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
-      when: not gcc_local.stat.exists
+      when: env_path.stdout.find("{{ [gcc_top_folder_name, 'bin'] | join('/') }}") != -1
 
     - name: Install apt packages
       apt:
