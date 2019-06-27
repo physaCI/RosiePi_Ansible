@@ -19,3 +19,4 @@
         accept_hostkey: yes
         depth: 1
         recursive: no
+        version: core_fold # current dev branch
