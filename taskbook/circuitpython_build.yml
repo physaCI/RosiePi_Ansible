@@ -59,7 +59,7 @@
 
     - name: Place gcc-arm-embedded on the PATH
       shell: export "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
-      when: env_path.stdout.find("{{ [gcc_top_folder_name, 'bin'] | join('/') }}") == -1
+      when: "env_path.stdout.find(gcc_top_folder_name ~ '/bin') == -1"
 
     - name: Install apt packages
       apt:
