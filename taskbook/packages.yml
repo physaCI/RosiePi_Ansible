@@ -1,7 +1,7 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
 # - Installs/upgrades required packages
----
+
 - hosts: localhost
   become: true
   tasks:

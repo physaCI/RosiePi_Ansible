@@ -1,14 +1,15 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
+# See the README for usage instructions.
 
 - hosts: localhost
   become: true
   pre_tasks:
-    - name: update resposiories
+    - name: Update apt package index
       apt: update_cache=yes
       changed_when: False
 
-    - name: check if smee is running
+    - name: Check if smee-client is running
       block:
         - name: find smee process
           command: ps -C node -o pid,command
@@ -16,18 +17,9 @@
           check_mode: no
       rescue:
         - debug:
-            msg: "smee isn't running."
+            msg: "smee-client isn't running."
 
-    - name: test ps parsing during check
-      command:
-        argv:
-          - ps
-          - "{{ smee_process.stdout | regex_search('\\b(\\d+)(?=.*smee)') }}"
-      #with_items: smee_process.stdout_lines
-      when: smee_process.stdout.find("smee") != -1
-      check_mode: no
-
-    - name: kill smee if running
+    - name: Kill smee-client process if running
       command:
         argv:
           - kill
