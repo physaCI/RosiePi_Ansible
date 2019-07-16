@@ -3,7 +3,6 @@
 # - Handles tasks associated with RosiePi
 
 - hosts: localhost
-  become: yes
   tasks:
     - name: pip RosiePi locally
       pip:

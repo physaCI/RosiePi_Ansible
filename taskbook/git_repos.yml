@@ -3,7 +3,6 @@
 # - Installs/pulls necessary GitHub repositories
 
 - hosts: localhost
-  become: true
   tasks:
     - name: Clone RosieApp
       git:
