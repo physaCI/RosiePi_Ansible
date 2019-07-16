@@ -13,7 +13,8 @@ that may not be available in previous versions.
 Usage
 -----
 On the RaspberryPi:
-- Create a user `rosie`, with passwordless sudo privileges.
+- Create a user `rosie`, with passwordless sudo privileges. Run the following
+  logged in as `rosie`.
 
 - Install Ansible:
   - At time of writing, Ansible requires the `software-properties-common`
