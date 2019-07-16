@@ -3,7 +3,6 @@
 # - Handles tasks associated with RosieApp
 
 - hosts: localhost
-  become: yes
   tasks:
     - name: Install server gems with bundle
       bundler:
