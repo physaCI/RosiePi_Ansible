@@ -18,5 +18,6 @@
     command: gem update --system
 
   - name: Install bundler
+    become: false
     gem:
       name: bundler
