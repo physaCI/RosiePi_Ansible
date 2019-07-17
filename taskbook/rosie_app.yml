@@ -7,7 +7,7 @@
     - name: Install server gems with bundle
       bundler:
         executable: ~/.gem/ruby/2.3.0/bin/bundle
-        gemfile: /home/rosie/rosie_app/RosiePiApp/Gemfile
+        gemfile: /home/rosie/rosie_app/Gemfile
 
     - name: Start smee
       command:
