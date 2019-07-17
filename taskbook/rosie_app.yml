@@ -34,5 +34,5 @@
           - --quiet
           - --no-notify
           - --pattern "**/*.{rb, py, ru}"
-          - /home/rosie/rosie_app/RosiePiApp/rosieapp_server.rb
+          - /home/rosie/rosie_app/rosieapp_server.rb
       when: server_running.stdout.find("rosieapp_server") == -1
