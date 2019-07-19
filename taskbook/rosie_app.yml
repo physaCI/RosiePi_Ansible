@@ -4,6 +4,12 @@
 
 - hosts: localhost
   tasks:
+    - name: Create systemd user folder if missing
+      file:
+        path: ~/.config/systemd/user
+        state: directory
+        mode: '0755'
+
     - name: Create/update smee_client.service
       copy:
         dest: ~/.config/systemd/user/smee_client.service
