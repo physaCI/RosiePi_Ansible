@@ -4,18 +4,21 @@
 
 - hosts: localhost
   tasks:
+    - name: Create/update smee_client.service
+      copy:
+        dest: ~/.config/systemd/user/smee_client.service
+        src: ./files/smee_client.service
+
     - name: Install server gems with bundle
       bundler:
         executable: ~/.gem/ruby/2.3.0/bin/bundle
         gemfile: /home/rosie/rosie_app/Gemfile
 
     - name: Start smee
-      command:
-        argv:
-          - smee
-          - --url https://smee.io/CdzlVqzEs6VH88Y
-          - --path /event_handler
-          - --port 3000
+      systemd:
+        name: smee_client
+        state: started
+        scope: user
 
     - name: Check if server is already running
       block:

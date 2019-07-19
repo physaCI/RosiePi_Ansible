@@ -9,23 +9,10 @@
       apt: update_cache=yes
       changed_when: False
 
-    - name: Check if smee-client is running
-      block:
-        - name: find smee process
-          command: ps -C node -o pid,command
-          register: smee_process
-          check_mode: no
-      rescue:
-        - debug:
-            msg: "smee-client isn't running."
-
-    - name: Kill smee-client process if running
-      command:
-        argv:
-          - kill
-          - -9
-          - "{{ smee_process.stdout | regex_search('\\b(\\d+)(?=.*smee)') }}"
-      when: smee_process.stdout.find("smee") != -1
+    - name: Ensure smee service is stopped
+      systemd:
+        name: smee
+        state: stopped
 
 - name: Run cron
   import_playbook: taskbook/cron.yml
