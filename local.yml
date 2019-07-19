@@ -16,8 +16,8 @@
             name: smee
             state: stopped
       rescue:
-        debug:
-          msg: "stopping smee service resulted in: {{ ansible_failed_result }}"
+        - debug:
+            msg: "stopping smee service resulted in: {{ ansible_failed_result }}"
 
 - name: Run cron
   import_playbook: taskbook/cron.yml
