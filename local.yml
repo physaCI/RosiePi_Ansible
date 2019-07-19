@@ -11,9 +11,9 @@
 
     - name: Ensure smee service is stopped
       block:
-        systemd:
-          name: smee
-          state: stopped
+        - systemd:
+            name: smee
+            state: stopped
       rescue:
         debug:
           msg: "stopping smee service resulted in: {{ ansible_failed_result }}"
