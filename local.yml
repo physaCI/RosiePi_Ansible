@@ -10,9 +10,13 @@
       changed_when: False
 
     - name: Ensure smee service is stopped
-      systemd:
-        name: smee
-        state: stopped
+      block:
+        systemd:
+          name: smee
+          state: stopped
+      rescue:
+        debug:
+          msg: "stopping smee service resulted in: {{ ansible_failed_result }}"
 
 - name: Run cron
   import_playbook: taskbook/cron.yml
