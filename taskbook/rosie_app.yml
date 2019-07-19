@@ -7,7 +7,7 @@
     - name: Create/update smee_client.service
       copy:
         dest: ~/.config/systemd/user/smee_client.service
-        src: ./files/smee_client.service
+        src: ../files/smee_client.service
 
     - name: Install server gems with bundle
       bundler:
