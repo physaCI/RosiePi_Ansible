@@ -18,7 +18,7 @@
     - name: Install server gems with bundle
       bundler:
         executable: ~/.gem/ruby/2.3.0/bin/bundle
-        gemfile: /home/rosie/rosie_app/Gemfile
+        chdir: /home/rosie/rosie_app/
 
     - name: Start smee
       systemd:
