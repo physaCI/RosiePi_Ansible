@@ -25,6 +25,7 @@
         name: smee_client
         state: started
         scope: user
+        daemon_reload: yes
 
     - name: Check if server is already running
       block:

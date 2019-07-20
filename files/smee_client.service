@@ -1,12 +1,10 @@
 [Unit]
 AssertPathExists=/usr/local/bin/smee
-Description="Smee-client as systemd Service"
-Requires=networking.service
+Description=Smee-client as systemd Service
 
 [Service]
-ExecStart=@/usr/local/bin/smee --url https://smee.io/CdzlVqzEs6VH88Y --path /event_handler --port 3000
+ExecStart=/usr/bin/node /usr/local/bin/smee --url https://smee.io/CdzlVqzEs6VH88Y --path /event_handler --port 3000
 Restart=on-failure
-User=rosie
 
 [Install]
 WantedBy=multi-user.target
