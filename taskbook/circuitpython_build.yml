@@ -77,7 +77,7 @@
             state: present
             line: 'PATH=$PATH:{{ gcc_path }}'
             insertafter: EOF
-            when: path_in_profile.changed == false
+          when: path_in_profile.changed == false
         - name: PATH in .profile; updating
           lineinfile:
             path: ~/.profile
@@ -85,7 +85,7 @@
             backrefs: no
             regexp: 'PATH=(["]*)((?![$]PATH[:]?{{ gcc_path }}).*?)(["]*)$'
             line: 'PATH=\1\2:{{ gcc_path }}\3'
-            when: path_in_profile.changed
+          when: path_in_profile.changed
 
     - name: Install apt packages
       apt:
