@@ -69,7 +69,7 @@
           replace:
             path: ~/.profile
             regexp: "PATH=(.*)"
-            replace: "PATH=\1"
+            replace: 'PATH=\1'
           register: path_in_profile
         - name: PATH not in .profile; adding new entry
           lineinfile:
@@ -84,7 +84,7 @@
             state: present
             backrefs: no
             regexp: "PATH=(["]*)((?![$]PATH[:]?{{ gcc_path }}).*?)(["]*)$"
-            line: "PATH=\1\2:{{ gcc_path }}\3"
+            line: 'PATH=\1\2:{{ gcc_path }}\3'
             when: path_in_profile.changed
 
     - name: Install apt packages
