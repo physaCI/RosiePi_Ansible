@@ -15,6 +15,7 @@
           systemd:
             name: smee
             state: stopped
+            scope: user
       rescue:
         - debug:
             msg: "stopping smee service resulted in: {{ ansible_failed_result }}"

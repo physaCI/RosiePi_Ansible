@@ -42,7 +42,7 @@
         chdir: ~/rosie_app/
         argv:
           - rerun
-          - --background
+          - -b
           - --quiet
           - --no-notify
           - -p '**/*.{rb, py, ru}'
