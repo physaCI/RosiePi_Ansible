@@ -54,15 +54,6 @@
         warn: false
       when: not gcc_local.stat.exists
 
-    - name: Check if gcc-arm-embedded is on the PATH
-      shell: echo $PATH
-      register: env_path
-
-    - name: Place gcc-arm-embedded on the PATH
-      shell: export "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
-      become: false
-      when: "env_path.stdout.find(gcc_top_folder_name ~ '/bin') == -1"
-
     - name: Place gcc-arm-embedded on the PATH
       block:
         - name: Check if PATH is in .profile
