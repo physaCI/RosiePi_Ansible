@@ -39,10 +39,11 @@
 
     - name: Start server
       command:
+        chdir: ~/rosie_app
         argv:
           - rerun
           - --quiet
           - --no-notify
           - --pattern '**/*.{rb, py, ru}'
-          - /home/rosie/rosie_app/rosieapp_server.rb
+          - rosieapp_server.rb
       when: server_running.stdout.find("rosieapp_server") == -1
