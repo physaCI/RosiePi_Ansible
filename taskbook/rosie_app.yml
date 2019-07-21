@@ -4,16 +4,28 @@
 
 - hosts: localhost
   tasks:
-    - name: Create systemd user folder if missing
-      file:
-        path: ~/.config/systemd/user
-        state: directory
-        mode: '0755'
+    - name: Config systemd services
+      block:
+        - name: Create systemd user folder if missing
+          file:
+            path: ~/.config/systemd/user
+            state: directory
+            mode: '0755'
 
-    - name: Create/update smee_client.service
-      copy:
-        dest: ~/.config/systemd/user/smee_client.service
-        src: ../files/smee_client.service
+        - name: Create/update smee_client.service
+          copy:
+            dest: ~/.config/systemd/user/smee_client.service
+            src: ../files/smee_client.service
+
+        - name: Create/update rosieapp.service
+          copy:
+            dest: ~/.config/systemd/user/rosieapp.service
+            src: ../files/rosieapp.service
+
+        - name: Reload the systemd user daemon
+          systemd:
+            scope: user
+            daemon_reload: yes
 
     - name: Install server gems with bundle
       bundler:
@@ -25,26 +37,9 @@
         name: smee_client
         state: started
         scope: user
-        daemon_reload: yes
 
-    - name: Check if server is already running
-      block:
-        - name: pgrep to find ruby instances
-          command: pgrep -a ruby
-          register: server_running
-          check_mode: no
-      rescue:
-        - debug:
-            msg: "rosieapp server isn't running."
-
-    - name: Start server
-      command:
-        chdir: ~/rosie_app/
-        argv:
-          - rerun
-          - -b
-          - --quiet
-          - --no-notify
-          - -p '**/*.{rb, py, ru}'
-          - rosieapp_server.rb
-      when: server_running.stdout.find("rosieapp_server") == -1
+    - name: Start rosieapp server
+      systemd:
+        name: rosieapp
+        state: started
+        scope: user
