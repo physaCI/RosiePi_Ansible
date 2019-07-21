@@ -13,7 +13,7 @@
       block:
         - name: Stop smee service
           systemd:
-            name: smee
+            name: smee_client
             state: stopped
             scope: user
 
