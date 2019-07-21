@@ -55,6 +55,7 @@
       when: not gcc_local.stat.exists
 
     - name: Place gcc-arm-embedded on the PATH
+      become: false
       block:
         - name: Check if PATH is in .profile
           replace:
