@@ -4,7 +4,7 @@ AssertPathExists=/usr/local/bin/rerun
 Description=RosieApp as systemd Service
 
 [Service]
-ExecStart=/usr/local/bin/rerun -b --quiet --no-notify -p '**/*.{rb, py, ru}' -- /home/rosie/rosie_app/rosieapp_server.rb
+ExecStart=/usr/local/bin/rerun --quiet --no-notify -p '**/*.{rb, py, ru}' /home/rosie/rosie_app/rosieapp_server.rb
 Restart=on-failure
 
 [Install]
