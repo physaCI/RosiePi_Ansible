@@ -39,7 +39,7 @@
 
     - name: Start server
       command:
-        chdir: ~/rosie_app
+        chdir: ~/rosie_app/
         argv:
           - rerun
           - --quiet
