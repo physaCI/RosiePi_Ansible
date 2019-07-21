@@ -68,14 +68,14 @@
         - name: Check if PATH is in .profile
           replace:
             path: ~/.profile
-            regexp: "PATH=(.*)"
+            regexp: 'PATH=(.*)'
             replace: 'PATH=\1'
           register: path_in_profile
         - name: PATH not in .profile; adding new entry
           lineinfile:
             path: ~/.profile
             state: present
-            line: "PATH=$PATH:{{ gcc_path }}"
+            line: 'PATH=$PATH:{{ gcc_path }}'
             insertafter: EOF
             when: path_in_profile.changed == false
         - name: PATH in .profile; updating
@@ -83,7 +83,7 @@
             path: ~/.profile
             state: present
             backrefs: no
-            regexp: "PATH=(["]*)((?![$]PATH[:]?{{ gcc_path }}).*?)(["]*)$"
+            regexp: 'PATH=(["]*)((?![$]PATH[:]?{{ gcc_path }}).*?)(["]*)$'
             line: 'PATH=\1\2:{{ gcc_path }}\3'
             when: path_in_profile.changed
 
