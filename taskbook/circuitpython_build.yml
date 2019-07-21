@@ -8,6 +8,7 @@
     gcc_top_folder_name: gcc-arm-none-eabi-7-2018-q2-update
     gcc_dwnld_url: "https://developer.arm.com/-/media/Files/downloads/gnu-rm/7-2018q2/gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2?revision=bc2c96c0-14b5-4bb4-9f18-bceb4050fee7?product=GNU%20Arm%20Embedded%20Toolchain,64-bit,,Linux,7-2018-q2-update"
     gcc_file_name: gcc-arm-none-eabi-7-2018-q2-update-linux.tar.bz2
+    gcc_path: "{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
   become: true
   tasks:
     - name: Check for /opt/gcc-arm-embedded directory
@@ -61,6 +62,30 @@
       shell: export "PATH=$PATH:{{ [gcc_install_dir, gcc_top_folder_name] | join('/') }}/bin"
       become: false
       when: "env_path.stdout.find(gcc_top_folder_name ~ '/bin') == -1"
+
+    - name: Place gcc-arm-embedded on the PATH
+      block:
+        - name: Check if PATH is in .profile
+          replace:
+            path: ~/.profile
+            regexp: "PATH=(.*)"
+            replace: "PATH=\1"
+          register: path_in_profile
+        - name: PATH not in .profile; adding new entry
+          lineinfile:
+            path: ~/.profile
+            state: present
+            line: "PATH=$PATH:{{ gcc_path }}"
+            insertafter: EOF
+            when: path_in_profile.changed == false
+        - name: PATH in .profile; updating
+          lineinfile:
+            path: ~/.profile
+            state: present
+            backrefs: no
+            regexp: "PATH=(["]*)((?![$]PATH[:]?{{ gcc_path }}).*?)(["]*)$"
+            line: "PATH=\1\2:{{ gcc_path }}\3"
+            when: path_in_profile.changed
 
     - name: Install apt packages
       apt:
