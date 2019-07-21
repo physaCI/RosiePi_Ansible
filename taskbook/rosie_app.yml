@@ -44,6 +44,6 @@
           - rerun
           - --quiet
           - --no-notify
-          - --pattern **/*.{rb, py, ru}
+          - -p '**/*.{rb, py, ru}'
           - rosieapp_server.rb
       when: server_running.stdout.find("rosieapp_server") == -1
