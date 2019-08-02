@@ -21,3 +21,4 @@
       become: false
       gem:
         name: bundler
+        user_install: yes
