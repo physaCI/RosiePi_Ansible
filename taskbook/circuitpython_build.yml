@@ -3,13 +3,14 @@
 # - Installs/upgrades required packages for building CircuitPython firmware
 
 - hosts: localhost
-  - name: Install apt packages
-    become: true
-    apt:
-      update_cache: yes
-      name: [gcc-arm-none-eabi, gettext]
+  tasks:
+    - name: Install apt packages
+      become: true
+      apt:
+        update_cache: yes
+        name: [gcc-arm-none-eabi, gettext]
 
-  - name: Install pip packages
-    pip:
-      name: huffman
-      extra_args: --user
+    - name: Install pip packages
+      pip:
+        name: huffman
+        extra_args: --user
