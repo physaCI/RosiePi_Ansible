@@ -15,7 +15,7 @@
         global: yes
 
     - name: Update RubyGems
-      command: gem update --system
+      command: gem update --system --no-document
 
     - name: Install bundler
       become: false
