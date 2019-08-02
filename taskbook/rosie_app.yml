@@ -27,9 +27,13 @@
             scope: user
             daemon_reload: yes
 
+    - name: Get bundle install location
+      command: gem info bundler | awk '{FS = ": " } /Installed at/ { print $2 }'
+      register: bundler_location
+
     - name: Install server gems with bundle
       bundler:
-        executable: ~/.gem/ruby/2.3.0/bin/bundle
+        executable: "{{ bundler_location.stdout }}/bin/bundle"
         chdir: /home/rosie/rosie_app/
 
     - name: Start smee
