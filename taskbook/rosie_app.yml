@@ -3,6 +3,9 @@
 # - Handles tasks associated with RosieApp
 
 - hosts: localhost
+  vars:
+    awk_flags: '-F ": "'
+    awk_pattern: "'/Installed at/ { print $2 }'"
   tasks:
     - name: Config systemd services
       block:
@@ -28,7 +31,7 @@
             daemon_reload: yes
 
     - name: Get bundle install location
-      shell: gem info bundler | awk '{FS = ": " } /Installed at/ { print $2 }'
+      shell: "gem info bundler | awk {{ awk_flags }} {{ awk_pattern }}"
       register: bundler_location
 
     - name: Install server gems with bundle
