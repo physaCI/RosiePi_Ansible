@@ -19,11 +19,13 @@
           copy:
             dest: ~/.config/systemd/user/smee_client.service
             src: ../files/smee_client.service
+            force: yes
 
         - name: Create/update rosieapp.service
           copy:
             dest: ~/.config/systemd/user/rosieapp.service
             src: ../files/rosieapp.service
+            force: yes
 
         - name: Reload the systemd user daemon
           systemd:
