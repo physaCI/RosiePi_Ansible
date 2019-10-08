@@ -13,13 +13,13 @@
       block:
         - name: Stop smee service
           systemd:
-            name: smee_client
+            name: smee_client.service
             state: stopped
             scope: user
 
         - name: Stop rosieapp service
           systemd:
-            name: rosieapp
+            name: rosieapp.service
             state: stopped
             scope: user
       rescue:
