@@ -25,7 +25,7 @@
         - name: Reload bash env
           shell: source ~/.bashrc
 
-      when: "PYENV_SHELL" not in ansible_facts['ansible_env']
+      when: ansible_facts['ansible_env']['PYENV_SHELL'] is not defined
 
     - name: Check/install CPython 3.5 in pyenv
       - name: Check for CPython 3.5
