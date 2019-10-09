@@ -33,6 +33,8 @@
   import_playbook: taskbook/packages.yml
 - name: Run circuitpython_build
   import_playbook: taskbook/circuitpython_build.yml
+- name: Run pyenv
+  import_playbook: taskbook/pyenv.yml
 - name: Run git_repos
   import_playbook: taskbook/git_repos.yml
 - name: Run rosie_pi
