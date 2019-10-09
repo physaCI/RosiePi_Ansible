@@ -46,9 +46,11 @@
         name: smee_client
         state: started
         scope: user
+        enabled: yes
 
     - name: Start rosieapp server
       systemd:
         name: rosieapp
         state: started
         scope: user
+        enabled: yes
