@@ -27,27 +27,22 @@
 
       when: ansible_facts['ansible_env']['PYENV_SHELL'] is not defined
 
-    - name: Check/install CPython 3.5 in pyenv
-      - name: Check for CPython 3.5
-        shell: pyenv versions | awk {{ awk_flags }} {{ py3_pattern }}
-        register: py3_installed
+    - name: Check for CPython 3.5
+      shell: pyenv versions | awk {{ awk_flags }} {{ py3_pattern }}
+      register: py3_installed
 
-      - name: Install CPython 3.5
-        block:
-          - name: Find latest CPython 3.5 version
-            shell: pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
-            register: py35_latest
+    - name: Install CPython 3.5
+      block:
+        - name: Find latest CPython 3.5 version
+          shell: pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
+          register: py35_latest
 
-          - name: Installing CPython 3.5...
-            shell: pyenv install {{ py35_latest.stdout | split | max }}
-            debug:
-              msg: "Installed CPython version {{ py35_latest.stdout | split | max }}."
+        - name: Installing CPython 3.5...
+          shell: pyenv install {{ py35_latest.stdout | split | max }}
+          debug:
+            msg: "Installed CPython version {{ py35_latest.stdout | split | max }}."
 
-        when: py3_installed.std_out == ""
+        - name: Setting local pyenv to CPython 3.5...
+          shell: pyenv local {{ py35_latest.stdout | split | max }}
 
-        - name: Set local pyenv to CPython 3.5
-          block:
-            - name: Setting local pyenv to CPython 3.5...
-              shell: pyenv local {{ py35_latest.stdout | split | max }}
-
-          when: py3_installed.stdout == ""
+      when: py3_installed.std_out == ""
