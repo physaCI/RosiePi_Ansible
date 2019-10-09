@@ -26,9 +26,9 @@
 
         - name: Add pyenv to PATH
           shell: |
-            export PATH="$HOME/.pyenv/bin:$PATH"
-            eval "$(pyenv init -)"
-            eval "$(pyenv virtualenv-init -)"
+            echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bashrc
+            echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+            echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
         - name: Reload bash env
           shell: source ~/.bashrc
