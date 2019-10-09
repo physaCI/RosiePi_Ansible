@@ -19,8 +19,8 @@
 
         - name: Install pyenv
           shell: curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-            args:
-              warn: no
+          args:
+            warn: no
 
         - name: Reload bash env
           shell: source ~/.bashrc
