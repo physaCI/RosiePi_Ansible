@@ -5,7 +5,7 @@
 - hosts: localhost
   vars:
     awk_flags: '-F "\n"'
-    py3_pattern: "'/([3]\.[5].+)/ { print $1 }'"
+    py3_pattern: "'/([3].[5].+)/ { print $1 }'"
   tasks:
     - name: Check/install pyenv
       block:
