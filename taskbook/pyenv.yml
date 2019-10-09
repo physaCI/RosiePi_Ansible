@@ -27,7 +27,7 @@
         - name: Reload bash env
           shell: source ~/.bashrc
           args:
-            executable: '`which $SHELL`'
+            executable: /bin/bash
 
       when: ansible_facts['env']['PYENV_SHELL'] is not defined
 
