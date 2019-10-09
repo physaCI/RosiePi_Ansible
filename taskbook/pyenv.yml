@@ -5,8 +5,10 @@
 - hosts: localhost
   vars:
     awk_flags: '-F "\n"'
-    py3_pattern: "'/([3].[5].+)/ { print $1 }'"
+    py35_pattern: "'/([3].[5].+)/ { print $1 }'"
   tasks:
+    - debug:
+        msg: "env: {{ ansible_facts.env }}"
     - name: Check/install pyenv
       block:
         - name: Install dependencies
@@ -24,23 +26,34 @@
 
         - name: Reload bash env
           shell: source ~/.bashrc
+          args:
+            executable: '`which $SHELL`'
 
-      when: ansible_facts['ansible_env']['PYENV_SHELL'] is not defined
+      when: ansible_facts['env']['PYENV_SHELL'] is not defined
 
     - name: Check for CPython 3.5
-      shell: pyenv versions | awk {{ awk_flags }} {{ py3_pattern }}
-      register: py3_installed
+      shell: pyenv versions | awk {{ awk_flags }} {{ py35_pattern }}
+      register: py35_installed
+      check_mode: no
+
+    - debug:
+        msg: "{{ py35_installed }}"
 
     - name: Install CPython 3.5
       block:
         - name: Find latest CPython 3.5 version
           shell: pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
           register: py35_latest
+          check_mode: no
+
+        - debug:
+            msg: "py35: {{ py35_latest.stdout_lines }}\npy53 max: {{ py35_latest.stdout_lines | max }}"
+          check_mode: no
 
         - name: Installing CPython 3.5...
-          shell: pyenv install {{ py35_latest.stdout | split | max }}
+          shell: pyenv install {{ py35_latest.stdout_lines | max }}
 
         - name: Setting local pyenv to CPython 3.5...
-          shell: pyenv local {{ py35_latest.stdout | split | max }}
+          shell: pyenv local {{ py35_latest.stdout_lines| max }}
 
-      when: py3_installed.std_out == ""
+      when: py35_installed.stdout == ""
