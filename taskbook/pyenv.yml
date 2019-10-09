@@ -39,8 +39,6 @@
 
         - name: Installing CPython 3.5...
           shell: pyenv install {{ py35_latest.stdout | split | max }}
-          debug:
-            msg: "Installed CPython version {{ py35_latest.stdout | split | max }}."
 
         - name: Setting local pyenv to CPython 3.5...
           shell: pyenv local {{ py35_latest.stdout | split | max }}
