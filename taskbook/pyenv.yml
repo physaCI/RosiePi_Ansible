@@ -24,6 +24,12 @@
           args:
             warn: no
 
+        - name: Add pyenv to PATH
+          shell: |
+            export PATH="$HOME/.pyenv/bin:$PATH"
+            eval "$(pyenv init -)"
+            eval "$(pyenv virtualenv-init -)"
+
         - name: Reload bash env
           shell: source ~/.bashrc
           args:
