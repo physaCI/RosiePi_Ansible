@@ -27,7 +27,7 @@
         - name: Add pyenv to PATH
           shell: |
             echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> /home/rosie/.profile
-            echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+            echo 'eval "$(pyenv init -)"' >> /home/rosie/.profile
             echo 'eval "$(pyenv virtualenv-init -)"' >> /home/rosie/.profile
 
         - name: Reload bash env
@@ -46,12 +46,8 @@
     - name: Install CPython 3.5
       block:
         - name: Find latest CPython 3.5 version
-          shell: . /home/rosie/.profile && pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
+          shell: . /home/rosie/.profile && pyenv install --list | awk '/  [3].[5].[0-9]$/ { print $1 }'
           register: py35_latest
-          check_mode: no
-
-        - debug:
-            msg: "py35: {{ py35_latest.stdout_lines }}\npy53 max: {{ py35_latest.stdout_lines | max }}"
           check_mode: no
 
         - name: Installing CPython 3.5...
