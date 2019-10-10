@@ -1,0 +1,9 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Handles tasks associated with RosiePi
+
+- hosts: localhost
+  tasks:
+    - name: Issue reboot command
+      become: yes
+      shell: shutdown +2 'Rebooting machine in 2 minutes.'

@@ -41,3 +41,7 @@
   import_playbook: taskbook/rosie_pi.yml
 - name: Run rosie_app
   import_playbook: taskbook/rosie_app.yml
+
+# now reboot the machine (primarily so that 'pyenv' is available in the PATH)
+- name: Reboot
+  import_playbook: taskbook/reboot.yml
