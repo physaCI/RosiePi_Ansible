@@ -7,8 +7,6 @@
     awk_flags: '-F "\n"'
     py35_pattern: "'/([3].[5].+)/ { print $1 }'"
   tasks:
-    - debug:
-        msg: "env: {{ ansible_facts.env }}"
     - name: Check/install pyenv
       block:
         - name: Install dependencies
