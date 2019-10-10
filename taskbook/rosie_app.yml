@@ -8,28 +8,29 @@
     awk_pattern: "'/Installed at/ { print $2 }'"
   tasks:
     - name: Config systemd services
+      become: yes
       block:
-        - name: Create systemd user folder if missing
-          file:
-            path: ~/.config/systemd/user
-            state: directory
-            mode: '0755'
+        #- name: Create systemd user folder if missing
+        #  file:
+        #    path: ~/.config/systemd/user
+        #    state: directory
+        #    mode: '0755'
 
         - name: Create/update smee_client.service
           copy:
-            dest: ~/.config/systemd/user/smee_client.service
+            dest: /etc/systemd/system/smee_client.service
             src: ../files/smee_client.service
             force: yes
 
         - name: Create/update rosieapp.service
           copy:
-            dest: ~/.config/systemd/user/rosieapp.service
+            dest: /etc/systemd/system/rosieapp.service
             src: ../files/rosieapp.service
             force: yes
 
         - name: Reload the systemd user daemon
           systemd:
-            scope: user
+            scope: system
             daemon_reload: yes
 
     - name: Get bundle install location
@@ -45,12 +46,12 @@
       systemd:
         name: smee_client
         state: started
-        scope: user
+        scope: system
         enabled: yes
 
     - name: Start rosieapp server
       systemd:
         name: rosieapp
         state: started
-        scope: user
+        scope: system
         enabled: yes

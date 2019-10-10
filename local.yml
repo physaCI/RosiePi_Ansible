@@ -16,13 +16,13 @@
           systemd:
             name: smee_client.service
             state: stopped
-            scope: user
+            scope: system
 
         - name: Stop rosieapp service
           systemd:
             name: rosieapp.service
             state: stopped
-            scope: user
+            scope: system
       rescue:
         - debug:
             msg: "stopping smee and rosieapp services resulted in: {{ ansible_failed_result }}"
