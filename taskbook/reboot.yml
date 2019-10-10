@@ -6,4 +6,4 @@
   tasks:
     - name: Issue reboot command
       become: yes
-      shell: shutdown +2 'Rebooting machine in 2 minutes.'
+      shell: shutdown --reboot +2 'Rebooting machine in 2 minutes.'
