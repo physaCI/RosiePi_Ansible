@@ -48,7 +48,9 @@
     - name: Install CPython 3.5
       block:
         - name: Find latest CPython 3.5 version
-          shell: pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
+          shell: |
+            . ~/.bashrc &&
+            pyenv install --list | awk '/  [3].[5].(.)/ { print $ 1 }'
           register: py35_latest
           check_mode: no
 
@@ -57,9 +59,13 @@
           check_mode: no
 
         - name: Installing CPython 3.5...
-          shell: pyenv install {{ py35_latest.stdout_lines | max }}
+          shell: |
+            . ~/.bashrc &&
+            pyenv install {{ py35_latest.stdout_lines | max }}
 
         - name: Setting local pyenv to CPython 3.5...
-          shell: pyenv local {{ py35_latest.stdout_lines| max }}
+          shell: |
+            . ~/.bashrc &&
+            pyenv local {{ py35_latest.stdout_lines| max }}
 
       when: py35_installed.stdout == ""
