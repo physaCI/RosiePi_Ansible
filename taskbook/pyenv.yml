@@ -53,6 +53,7 @@
 
         - name: Setting local pyenv to CPython 3.5...
           shell: . /home/rosie/.profile && pyenv local {{ py35_latest.stdout_lines | max }}
+          args:
             chdir: /home/rosie
 
       when: py35_installed.stdout == ""
