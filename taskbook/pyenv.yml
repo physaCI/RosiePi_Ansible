@@ -52,6 +52,7 @@
           shell: . /home/rosie/.profile && pyenv install {{ py35_latest.stdout_lines | max }}
 
         - name: Setting local pyenv to CPython 3.5...
+          chdir: /home/rosie
           shell: . /home/rosie/.profile && pyenv local {{ py35_latest.stdout_lines | max }}
 
       when: py35_installed.stdout == ""
