@@ -18,5 +18,5 @@
         dest: /home/rosie/rosie_pi
         accept_hostkey: yes
         depth: 1
-        recursive: no
+        recursive: yes
         version: core_fold # current dev branch
