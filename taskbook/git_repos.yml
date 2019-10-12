@@ -21,11 +21,11 @@
         recursive: yes
         version: dev_v2 # current dev branch
 
-      - name: Clone CircuitPython
-        git:
-          repo: 'https://github.com/sommersoft/circuitpython.git'
-          dest: /home/rosie/circuitpython
-          accept_hostkey: yes
-          depth: 1
-          recursive: yes
-          version: rosiepi_test # current rosiepi branch
+    - name: Clone CircuitPython
+      git:
+        repo: 'https://github.com/sommersoft/circuitpython.git'
+        dest: /home/rosie/circuitpython
+        accept_hostkey: yes
+        depth: 1
+        recursive: yes
+        version: rosiepi_test # current rosiepi branch
