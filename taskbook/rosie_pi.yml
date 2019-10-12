@@ -8,4 +8,4 @@
       pip:
         name: /home/rosie/rosie_pi/.
         editable: yes
-        extra_args: --user
+        #extra_args: --user
