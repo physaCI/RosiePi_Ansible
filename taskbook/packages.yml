@@ -19,6 +19,9 @@
 
     - name: Install bundler
       become: false
-      gem:
-        name: bundler
-        user_install: yes
+      #gem:
+      #  name: bundler
+      #  user_install: yes
+      shell: gem install bundler --user-install
+      args:
+        chdir: /home/rosie
