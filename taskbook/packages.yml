@@ -19,9 +19,9 @@
 
     - name: Install bundler
       become: false
-      #gem:
-      #  name: bundler
-      #  user_install: yes
+      #gem:                 # this doesn't work with the current ansible module
+      #  name: bundler      # since it bails if any bundler is installed, to
+      #  user_install: yes  # a system installation.
       shell: gem install bundler --user-install
       args:
         chdir: /home/rosie
