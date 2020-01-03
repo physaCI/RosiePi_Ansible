@@ -6,7 +6,7 @@ Description=RosieApp as systemd Service
 [Service]
 User=rosie
 WorkingDirectory=/home/rosie/rosie_app
-ExecStart=/usr/local/bin/rerun -b --no-notify -p '**/*.{rb, py, ru}' /home/rosie/rosie_app/rosieapp_server.rb
+
 Restart=on-failure
 
 [Install]

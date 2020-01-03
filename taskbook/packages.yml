@@ -7,21 +7,4 @@
   tasks:
     - name: Install apt packages
       apt:
-        name: [npm, git, ruby-full, python3, python3-pip, pmount]
-
-    - name: Install npm packages
-      npm:
-        name: smee-client
-        global: yes
-
-    - name: Update RubyGems
-      command: gem update --system --no-document
-
-    - name: Install bundler
-      become: false
-      #gem:                 # this doesn't work with the current ansible module
-      #  name: bundler      # since it bails if any bundler is installed, to
-      #  user_install: yes  # a system installation.
-      shell: gem install bundler --user-install
-      args:
-        chdir: /home/rosie
+        name: [git, python3, python3-pip, pmount]

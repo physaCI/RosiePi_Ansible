@@ -10,14 +10,8 @@
       apt: update_cache=yes
       changed_when: False
 
-    - name: Ensure smee service is stopped
+    - name: Ensure services are stopped
       block:
-        - name: Stop smee service
-          systemd:
-            name: smee_client.service
-            state: stopped
-            scope: system
-
         - name: Stop rosieapp service
           systemd:
             name: rosieapp.service
@@ -25,7 +19,7 @@
             scope: system
       rescue:
         - debug:
-            msg: "stopping smee and rosieapp services resulted in: {{ ansible_failed_result }}"
+            msg: "stopping rosieapp services resulted in: {{ ansible_failed_result }}"
 
 - name: Run cron
   import_playbook: taskbook/cron.yml
