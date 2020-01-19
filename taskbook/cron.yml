@@ -1,13 +1,27 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Sets/updates the cron job that runs ansible-pull
+# - Sets/updates the cron jobs
 
 - hosts: localhost
   become: true
   tasks:
-    - name: install cron job
+    - name: Create/update rosiepi_ansible script
+      copy:
+        dest: /usr/local/bin/rosiepi_ansible.sh
+        src: ../files/rosiepi_ansible.sh
+        owner: root
+        group: root
+
+    - name: Make ansible cron job
       cron:
-        user: "rosie"
+        user: "rosie-ansible"
         name: "ansible provision"
-        job: 'ansible-pull -o -U https://github.com/sommersoft/RosiePi_Ansible.git -e "ansible_python_interpreter=/usr/bin/python3"'
+        job: "/usr/local/bin/rosiepi_ansible.sh"
         hour: "2"
+        state: present
+
+    - name: Make physaCI registrar cron job
+      user: "rosie-backend"
+      name: "physaCI registrar check-in"
+      job: <cmd>
+      special_time: hourly
