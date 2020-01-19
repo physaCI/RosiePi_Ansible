@@ -3,10 +3,10 @@
 # See the README for usage instructions.
 
 - hosts: localhost
-  #become: true
   pre_tasks:
+    become: true
+
     - name: Update apt package index
-      become: true
       apt: update_cache=yes
       changed_when: False
 
@@ -21,21 +21,34 @@
         - debug:
             msg: "stopping rosieapp services resulted in: {{ ansible_failed_result }}"
 
-- name: Run cron
-  import_playbook: taskbook/cron.yml
-- name: Run packages
-  import_playbook: taskbook/packages.yml
-- name: Run circuitpython_build
-  import_playbook: taskbook/circuitpython_build.yml
-#- name: Run pyenv
-#  import_playbook: taskbook/pyenv.yml
-- name: Run git_repos
-  import_playbook: taskbook/git_repos.yml
-- name: Run rosie_pi
-  import_playbook: taskbook/rosie_pi.yml
-- name: Run rosie_app
-  import_playbook: taskbook/rosie_app.yml
+      block:
+        - name: Ensure httpd is stopped
+          command: apache2ctl -k graceful-stop
+      rescue:
+        - debug:
+          msg: "{{ ansible_failed_task }}"
 
-# now reboot the machine (primarily so that 'pyenv' is available in the PATH)
-- name: Reboot
-  import_playbook: taskbook/reboot.yml
+  - name: Run users_groups
+    import_playbook: taskbook/users_groups.yml
+  - name: Run cron
+    import_playbook: taskbook/cron.yml
+  - name: Run packages
+    import_playbook: taskbook/packages.yml
+  - name: Run circuitpython_build
+    import_playbook: taskbook/circuitpython_build.yml
+  #- name: Run pyenv
+  #  import_playbook: taskbook/pyenv.yml
+  - name: Run git_repos
+    import_playbook: taskbook/git_repos.yml
+  - name: Run rosie_pi
+    import_playbook: taskbook/rosie_pi.yml
+  #- name: Run rosie_app
+  #  import_playbook: taskbook/rosie_app.yml
+
+  - name: Reboot
+    import_playbook: taskbook/reboot.yml
+
+  when:
+    - ({{ ansible_become_user }} == 'rosie-admin') or
+      ({{ ansible_become_user }} == 'rosie-ansible')
+    - ansible_facts['distribution'] == "Ubuntu"
