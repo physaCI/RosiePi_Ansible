@@ -1,0 +1,36 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Installs/pulls necessary GitHub repositories
+
+# NOTES:
+#  - mod_authz_host can block by host; uses reverse dns lookup to verfiy
+#  - will likely use a VirtualHost approach, to not interfere with other possible Apache uses
+
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Copy Apache global config files
+      block:
+        - name: Replace Apache global config with RosiePi version
+          copy:
+            dest: /etc/apache2/apache2.conf
+            src: ../files/apache2/apache2.conf
+            force: yes
+
+        - name: Replace Apache ports config with RosiePi version
+          copy:
+            dest: /etc/apache2/ports.conf
+            src: ../files/apache2/ports.conf
+            force: yes
+
+    - name: Ensure Apache default site is disabled
+      block:
+        - name: Check Apache sites-enabled
+          command: ls /etc/apache2/sites-enabled
+          register: sites_enabled
+
+        - name: Disable Apache default site, if enabled
+          command: a2dissite 000-default
+          register: disable_default
+          when: sites_enabled.stdout.find('000-default.conf') != -1
