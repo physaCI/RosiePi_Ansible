@@ -2,30 +2,28 @@
 # To be used with 'ansible-pull'
 # - Installs/pulls necessary GitHub repositories
 
+# TODO: will these become PyPI packages, or installed from releases?
+
 - hosts: localhost
   tasks:
+    - name: Get User directory
+      shell:
+        cmd: getent passwd rosie-backend | cut -d : -f 6
+      register: user_dir
+
     - name: Clone RosieApp
       git:
         repo: 'https://github.com/sommersoft/RosiePiApp.git'
-        dest: /home/rosie/rosie_app
+        dest: {{ user_dir.stdout }}/rosie_app
         accept_hostkey: yes
         depth: 1
-        version: initial_template # current dev branch
+        version: azure_version # current dev branch
 
     - name: Clone RosiePi
       git:
         repo: 'https://github.com/sommersoft/RosiePi.git'
-        dest: /home/rosie/rosie_pi
+        dest: {{ user_dir.stdout }}/rosie_pi
         accept_hostkey: yes
         depth: 1
         recursive: yes
         version: dev_v2 # current dev branch
-
-    - name: Clone CircuitPython
-      git:
-        repo: 'https://github.com/sommersoft/circuitpython.git'
-        dest: /home/rosie/circuitpython
-        accept_hostkey: yes
-        depth: 1
-        recursive: yes
-        version: rosiepi_test # current rosiepi branch

@@ -4,7 +4,12 @@
 
 - hosts: localhost
   tasks:
+    - name: Get User directory
+      shell:
+        cmd: getent passwd rosie-backend | cut -d : -f 6
+      register: user_dir
+
     - name: pip RosiePi locally
       pip:
-        name: /home/rosie/rosie_pi/.
+        name: {{ user_dir.stdout }}/rosie_pi/.
         editable: yes
