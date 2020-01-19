@@ -1,0 +1,6 @@
+## Sudoer permissions file for RosiePi.
+
+# Should only allow no password exec privileges to run the
+# specific Ansible script.
+
+rosie-ansible   ALL=(ALL) NOPASSWD:NOEXEC: /usr/local/bin/rosiepi_ansible.sh
