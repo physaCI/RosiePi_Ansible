@@ -17,7 +17,7 @@
           command: apache2ctl -k graceful-stop
       rescue:
         - debug:
-          msg: "{{ ansible_failed_task }}"
+            msg: "{{ ansible_failed_task }}"
 
   tasks:
     block:
