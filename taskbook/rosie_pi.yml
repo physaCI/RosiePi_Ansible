@@ -11,5 +11,5 @@
 
     - name: pip RosiePi locally
       pip:
-        name: {{ user_dir.stdout }}/rosie_pi/.
+        name: "{{ user_dir.stdout }}/rosie_pi/."
         editable: yes

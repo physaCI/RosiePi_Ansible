@@ -14,7 +14,7 @@
     - name: Clone RosieApp
       git:
         repo: 'https://github.com/sommersoft/RosiePiApp.git'
-        dest: {{ user_dir.stdout }}/rosie_app
+        dest: "{{ user_dir.stdout }}/rosie_app"
         accept_hostkey: yes
         depth: 1
         version: azure_version # current dev branch
@@ -22,7 +22,7 @@
     - name: Clone RosiePi
       git:
         repo: 'https://github.com/sommersoft/RosiePi.git'
-        dest: {{ user_dir.stdout }}/rosie_pi
+        dest: "{{ user_dir.stdout }}/rosie_pi"
         accept_hostkey: yes
         depth: 1
         recursive: yes
