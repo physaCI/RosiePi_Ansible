@@ -5,28 +5,11 @@
 - hosts: localhost
 
   tasks:
+    - name: Get User directory
+      shell:
+        cmd: getent passwd rosie-backend | cut -d : -f 6
+      register: user_dir
+
     - name: pip RosiePiApp requirements
       pip:
-        requirements: /home/rosie/rosie_app/requirements.txt
-
-    - name: Config systemd services
-      become: yes
-      block:
-        - name: Create/update rosieapp.service
-          copy:
-            dest: /etc/systemd/system/rosieapp.service
-            src: ../files/rosieapp.service
-            force: yes
-
-        - name: Reload the systemd user daemon
-          systemd:
-            scope: system
-            daemon_reload: yes
-
-    - name: Start rosieapp server
-      become: yes
-      systemd:
-        name: rosieapp
-        state: started
-        scope: system
-        enabled: yes
+        requirements: {{ user_dir.stdout }}/rosie_app/requirements.txt
