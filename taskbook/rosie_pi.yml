@@ -8,6 +8,7 @@
       shell:
         cmd: 'getent passwd rosie-backend | cut -d : -f 6'
       register: user_dir
+      check_mode: yes
 
     - name: pip RosiePi locally
       pip:

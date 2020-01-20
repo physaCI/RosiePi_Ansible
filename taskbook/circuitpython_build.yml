@@ -18,6 +18,7 @@
       shell:
         cmd: '`which arm-none-eabi-gcc` --version 2>&1 | grep -o "9\.[[:digit:]]\.[[:digit:]]"'
       register: gcc_9_installed
+      check_mode: yes
 
     - name: Install GCC9 if necessary
       block:
@@ -43,6 +44,7 @@
       shell:
         cmd: 'getent passwd rosie-backend | cut -d : -f 6'
       register: user_dir
+      
     - name: Clone CircuitPython
       git:
         repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit

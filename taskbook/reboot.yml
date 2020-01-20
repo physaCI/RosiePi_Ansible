@@ -7,3 +7,4 @@
     - name: Issue reboot command
       become: yes
       shell: shutdown --reboot +2 'Rebooting machine in 2 minutes.'
+      check_mode: no

@@ -12,6 +12,7 @@
 
     - name: Ensure services are stopped
       become: yes
+      check_mode: yes
       block:
         - name: Ensure httpd is stopped
           command: apache2ctl -k graceful-stop
