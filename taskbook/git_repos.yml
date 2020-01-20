@@ -8,7 +8,7 @@
   tasks:
     - name: Get User directory
       shell:
-        cmd: getent passwd rosie-backend | cut -d : -f 6
+        cmd: 'getent passwd rosie-backend | cut -d : -f 6'
       register: user_dir
 
     - name: Clone RosieApp
