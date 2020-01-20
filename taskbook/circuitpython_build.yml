@@ -38,16 +38,16 @@
       when: gcc_9_installed.stdout == ""
       become: true
 
-      # clone the CircuitPython source
-      - name: Get User directory
-        shell:
-          cmd: getent passwd rosie-backend | cut -d : -f 6
-        register: user_dir
-      - name: Clone CircuitPython
-        git:
-          repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit
-          dest: user_dir.stdout
-          accept_hostkey: yes
-          depth: 1
-          recursive: yes
-          version: rosiepi_test # current rosiepi branch
+    # clone the CircuitPython source
+    - name: Get User directory
+      shell:
+        cmd: getent passwd rosie-backend | cut -d : -f 6
+      register: user_dir
+    - name: Clone CircuitPython
+      git:
+        repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit
+        dest: user_dir.stdout
+        accept_hostkey: yes
+        depth: 1
+        recursive: yes
+        version: rosiepi_test # current rosiepi branch
