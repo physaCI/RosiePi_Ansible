@@ -33,9 +33,11 @@
           unarchive:
             src: "/tmp/{{ gcc_dl_filename }}"
             dest: /opt/arm-none-eabi-gcc
+          when: not ansible_check_mode
 
         - name: Create symlink for arm-none-eabi-gcc
           command: ln -s /opt/arm-none-eabi-gcc/ /usr/bin/arm-none-eabi-gcc
+          when: not ansible_check_mode
 
       when: gcc_9_installed.stdout == ""
       become: true
