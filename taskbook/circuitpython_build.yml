@@ -16,7 +16,7 @@
 
     - name: Check if GCC version 9 installed
       shell:
-        cmd: `which arm-none-eabi-gcc` --version 2>&1 | grep -o "9\.[[:digit:]]\.[[:digit:]]"
+        cmd: '`which arm-none-eabi-gcc` --version 2>&1 | grep -o "9\.[[:digit:]]\.[[:digit:]]"'
       register: gcc_9_installed
 
     - name: Install GCC9 if necessary
