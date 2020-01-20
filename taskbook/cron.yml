@@ -21,7 +21,8 @@
         state: present
 
     - name: Make physaCI registrar cron job
-      user: "rosie-backend"
-      name: "physaCI registrar check-in"
-      job: <cmd>
-      special_time: hourly
+      cron:
+        user: "rosie-backend"
+        name: "physaCI registrar check-in"
+        job: "echo hello ansible"
+        special_time: hourly
