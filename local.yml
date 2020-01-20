@@ -40,5 +40,5 @@
 
       - name: Reboot
         import_playbook: taskbook/reboot.yml
-    when: ({{ ansible_become_user }} in ['rosie-admin', 'rosie-ansible']) and
+    when: (ansible_become_user in ['rosie-admin', 'rosie-ansible']) and
           (ansible_facts['distribution'] == "Ubuntu")
