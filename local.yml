@@ -20,27 +20,27 @@
           msg: "{{ ansible_failed_task }}"
 
   tasks:
-    - name: Run users_groups
-      import_playbook: taskbook/users_groups.yml
-    - name: Run cron
-      import_playbook: taskbook/cron.yml
-    - name: Run packages
-      import_playbook: taskbook/packages.yml
-    - name: Run circuitpython_build
-      import_playbook: taskbook/circuitpython_build.yml
-    #- name: Run pyenv
-    #  import_playbook: taskbook/pyenv.yml
-    - name: Run git_repos
-      import_playbook: taskbook/git_repos.yml
-    - name: Run rosie_pi
-      import_playbook: taskbook/rosie_pi.yml
-    #- name: Run rosie_app
-    #  import_playbook: taskbook/rosie_app.yml
+    block:
+      - name: Run users_groups
+        import_playbook: taskbook/users_groups.yml
+      - name: Run cron
+        import_playbook: taskbook/cron.yml
+      - name: Run packages
+        import_playbook: taskbook/packages.yml
+      - name: Run circuitpython_build
+        import_playbook: taskbook/circuitpython_build.yml
+      #- name: Run pyenv
+      #  import_playbook: taskbook/pyenv.yml
+      - name: Run git_repos
+        import_playbook: taskbook/git_repos.yml
+      - name: Run rosie_pi
+        import_playbook: taskbook/rosie_pi.yml
+      #- name: Run rosie_app
+      #  import_playbook: taskbook/rosie_app.yml
 
-    - name: Reboot
-      import_playbook: taskbook/reboot.yml
-
-  when:
-    - ({{ ansible_become_user }} == 'rosie-admin') or
-      ({{ ansible_become_user }} == 'rosie-ansible')
-    - ansible_facts['distribution'] == "Ubuntu"
+      - name: Reboot
+        import_playbook: taskbook/reboot.yml
+    when:
+      - ({{ ansible_become_user }} == 'rosie-admin') or
+        ({{ ansible_become_user }} == 'rosie-ansible')
+      - ansible_facts['distribution'] == "Ubuntu"
