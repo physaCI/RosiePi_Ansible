@@ -29,8 +29,26 @@
         - name: Check Apache sites-enabled
           command: ls /etc/apache2/sites-enabled
           register: sites_enabled
+          check_mode: no
 
         - name: Disable Apache default site, if enabled
           command: a2dissite 000-default
           register: disable_default
           when: sites_enabled.stdout.find('000-default.conf') != -1
+
+    - name: Copy/update RosiePi node_server VirtualHost files
+      block:
+        - name: Copy rosiepi_node_server_vhost.conf
+          copy:
+            dest: /etc/apache2/sites-available/rosiepi_node_server.conf
+            src: ../files/apache2/rosiepi_node_server_vhost.conf
+            force: yes
+
+        - name: Copy rosiepi_node_server WSGI
+          copy:
+            dest: /var/rosiepi_node_server/
+            src: ../files/apache2/rosiepi_node_server.wsgi
+            force: yes
+
+        - name: Enable RosiePi node_server site
+          command: a2ensite rosiepi_node_server
