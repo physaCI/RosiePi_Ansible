@@ -11,6 +11,7 @@
           user:
             name: rosie-ansible
             create_home: no
+            system: yes
 
         - name: Ensure "rosie-ansible" sudoer settings
           copy:
@@ -35,8 +36,10 @@
       user:
         name: rosie-backend
         group: rosie-workers
+        system: yes
 
     - name: Ensure user "www-rosie"
       user:
         name: www-rosie
         group: www-rosie
+        system: yes
