@@ -11,20 +11,3 @@
         cmd: 'getent passwd rosie-backend | cut -d : -f 6'
       register: user_dir
       check_mode: no
-
-    - name: Clone RosieApp
-      git:
-        repo: 'https://github.com/sommersoft/RosiePiApp.git'
-        dest: "{{ user_dir.stdout }}/rosie_app"
-        accept_hostkey: yes
-        depth: 1
-        version: azure_version # current dev branch
-
-    - name: Clone RosiePi
-      git:
-        repo: 'https://github.com/sommersoft/RosiePi.git'
-        dest: "{{ user_dir.stdout }}/rosie_pi"
-        accept_hostkey: yes
-        depth: 1
-        recursive: yes
-        version: dev_v2 # current dev branch

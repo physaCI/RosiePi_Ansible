@@ -10,7 +10,17 @@
       register: user_dir
       check_mode: no
 
+    - name: Clone RosiePi
+      git:
+        repo: 'https://github.com/sommersoft/RosiePi.git'
+        dest: "{{ user_dir.stdout }}/rosie_pi"
+        accept_hostkey: yes
+        depth: 1
+        recursive: yes
+        version: dev_v2 # current dev branch
+
     - name: pip RosiePi locally
       pip:
         name: "{{ user_dir.stdout }}/rosie_pi/."
         editable: yes
+        extra_args: --user
