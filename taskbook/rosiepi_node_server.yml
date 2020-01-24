@@ -11,6 +11,7 @@
       command: "ls {{ www_rosie_dir }}/.venv"
       register: venv_exists
       check_mode: no
+      ignore_errors: yes
 
     - name: Setup virtual environment if needed
       command: "virtualenv {{ www_rosie_dir }}/.venv"
