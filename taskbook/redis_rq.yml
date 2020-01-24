@@ -26,5 +26,6 @@
 
         - name: Reload systemd daemon and ensure rosie-rq-worker is enabled
           systemd:
+            name: rosie-rq-worker
             daemon_reload: yes
             enabled: yes
