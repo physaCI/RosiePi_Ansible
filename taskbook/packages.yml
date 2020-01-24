@@ -7,4 +7,8 @@
   tasks:
     - name: Install apt packages
       apt:
-        name: [apache2, gettext, git, libapache2-mod-wsgi, pmount, redis]
+        name: [apache2, gettext, git, libapache2-mod-wsgi-py3, pmount, redis]
+
+    - name: Install pip packages
+      pip:
+        name: [huffman, rq, virtualenv]
