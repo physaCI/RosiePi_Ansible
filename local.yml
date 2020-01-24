@@ -12,13 +12,22 @@
 
     - name: Ensure services are stopped
       become: yes
-      check_mode: yes
+      check_mode: no
       block:
         - name: Ensure httpd is stopped
           command: apache2ctl -k graceful-stop
+        - name: Ensure redis-server is stopped
+          systemd:
+            name: redis
+            state: stopped
+        - name: Ensure rosie-rq-worker is stopped
+          systemd:
+            name: rosie-rq-worker
+            state: stopped
       rescue:
         - debug:
             msg: "{{ ansible_failed_task }}"
+      ignore_errors: yes
 
 - name: Run users_groups
   import_playbook: taskbook/users_groups.yml
@@ -26,20 +35,20 @@
   import_playbook: taskbook/cron.yml
 - name: Run packages
   import_playbook: taskbook/packages.yml
+- name: Run apache_config
+  import_playbook: taskbook/apache_config.yml
+- name: Run redis_rq
+  import_playbook: taskbook/redis_rq.yml
 - name: Run circuitpython_build
   import_playbook: taskbook/circuitpython_build.yml
 #- name: Run pyenv
 #  import_playbook: taskbook/pyenv.yml
-- name: Run git_repos
-  import_playbook: taskbook/git_repos.yml
+#- name: Run git_repos
+#  import_playbook: taskbook/git_repos.yml
 - name: Run rosie_pi
   import_playbook: taskbook/rosie_pi.yml
-#- name: Run rosie_app
-#  import_playbook: taskbook/rosie_app.yml
+- name: Run rosie_app
+  import_playbook: taskbook/rosiepi_node_server.yml
 
 - name: Reboot
   import_playbook: taskbook/reboot.yml
-
-
-#    when: (ansible_become_user in ['rosie-admin', 'rosie-ansible']) and
-#          (ansible_facts['distribution'] == "Ubuntu")
