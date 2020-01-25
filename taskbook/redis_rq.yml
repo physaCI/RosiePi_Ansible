@@ -10,7 +10,7 @@
         dest: /etc/redis/redis.conf
         src: ../files/redis.conf
         force: yes
-        user: redis
+        owner: redis
         group: redis
         mode: 0640
 
