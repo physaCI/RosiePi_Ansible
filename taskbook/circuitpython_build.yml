@@ -21,12 +21,12 @@
         - name: Download GCC9 aarch64 version
           get_url:
             url: "{{ gcc_dl_url }}"
-            dest: /tmp
+            dest: "/opt/arm-none-eabi-gcc/{{ gcc_dl_filename}}"
             checksum: "md5:{{ gcc_dl_md5 }}"
 
         - name: Untar GCC9
           unarchive:
-            src: "/tmp/{{ gcc_dl_filename }}"
+            src: "/opt/arm-none-eabi-gcc/{{ gcc_dl_filename }}"
             dest: /opt/arm-none-eabi-gcc
           when: not ansible_check_mode
 
