@@ -20,7 +20,7 @@
             owner: root
             group: root
             mode: 0440
-            validate: /usr/sbin/visudo -cs
+            validate: /usr/sbin/visudo -cs %s
 
     - name: Ensure group "rosie-workers"
       group:
