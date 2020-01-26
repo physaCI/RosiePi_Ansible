@@ -17,7 +17,7 @@
     - name: Setup virtual environment if needed
       command: "virtualenv {{ www_rosie_dir }}/.venv"
       when:
-        - venv_exists.stdout != ""
+        - venv_exists.stdout == ""
         - not ansible_check_mode
 
     - name: Clone RosieApp
@@ -33,5 +33,5 @@
         chdir: "{{ www_rosie_dir }}"
         cmd: |
           source .venv/bin/activate
-          pip3 install -e .
+          pip3 install -e ./node_server
           deactivate
