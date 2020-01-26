@@ -3,6 +3,7 @@
 # - Handles tasks associated with RosieApp
 
 - hosts: localhost
+  become: true
   vars:
     www_rosie_dir: "/var/rosiepi_node_server"
 
