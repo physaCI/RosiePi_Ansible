@@ -27,7 +27,7 @@
         - name: Untar GCC9
           unarchive:
             src: "/opt/arm-none-eabi-gcc/{{ gcc_dl_filename }}"
-            dest: /opt/arm-none-eabi-gcc
+            dest: /opt/arm-none-eabi-gcc/
           when: not ansible_check_mode
 
         - name: Create symlink for arm-none-eabi-gcc
