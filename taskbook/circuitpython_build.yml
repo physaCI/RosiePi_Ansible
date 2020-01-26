@@ -18,10 +18,16 @@
 
     - name: Install GCC9 if necessary
       block:
+        - name: Create /opt/arm-none-eabi-gcc directory
+          file:
+            path: /opt/arm-none-eabi-gcc
+            state: directory
+            mode: 0755
+
         - name: Download GCC9 aarch64 version
           get_url:
             url: "{{ gcc_dl_url }}"
-            dest: /opt/arm-none-eabi-gcc/
+            dest: "/opt/arm-none-eabi-gcc/{{ gcc_dl_filename }}"
             checksum: "md5:{{ gcc_dl_md5 }}"
 
         - name: Untar GCC9
