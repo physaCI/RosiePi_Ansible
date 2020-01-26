@@ -31,6 +31,7 @@
     - name: pip install node_server into virtual environment
       shell:
         chdir: "{{ www_rosie_dir }}"
+        executable: /usr/bin/bash
         cmd: |
           source .venv/bin/activate
           pip3 install -e ./node_server
