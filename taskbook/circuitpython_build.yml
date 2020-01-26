@@ -34,6 +34,8 @@
           unarchive:
             src: "/opt/arm-none-eabi-gcc/{{ gcc_dl_filename }}"
             dest: /opt/arm-none-eabi-gcc
+            extra_opts:
+              - --strip-components=1
           when: not ansible_check_mode
 
         - name: Create symlink for arm-none-eabi-gcc
