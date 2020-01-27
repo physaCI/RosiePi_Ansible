@@ -12,3 +12,4 @@
     - name: Install pip packages
       pip:
         name: [huffman, rq, virtualenv]
+        extra_args: --system
