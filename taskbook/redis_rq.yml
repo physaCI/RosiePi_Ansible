@@ -14,6 +14,14 @@
         group: redis
         mode: 0640
 
+    - name: Copy/update Kernel sysctl config file for Redis
+      copy:
+        dest: /etc/sysctl.d/10-redis-sysctl-vm-overcommit-mem.conf
+        src: ../files/10-redis-sysctl-vm-overcommit-mem.conf
+        owner: root
+        group: root
+        mode: 0644
+
     - name: Ensure RQ worker systemd is setup properly
       block:
         - name: Copy/update rosie-rq-worker service unit file
