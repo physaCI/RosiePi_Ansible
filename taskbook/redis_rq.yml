@@ -8,16 +8,24 @@
     - name: Copy/update Redis config file
       copy:
         dest: /etc/redis/redis.conf
-        src: ../files/redis.conf
+        src: ../files/redis/redis.conf
         force: yes
         owner: redis
         group: redis
         mode: 0640
 
+    - name: Copy/update drop-in config for Redis systemd service file
+      copy:
+        dest: /lib/systemd/system/redis-server.service.d/10-exec-start-post.conf
+        src: ../files/redis/10-exec-start-post.conf
+        owner: root
+        group: root
+        mode: 0644
+
     - name: Copy/update Kernel sysctl config file for Redis
       copy:
         dest: /etc/sysctl.d/10-redis-sysctl-vm-overcommit-mem.conf
-        src: ../files/10-redis-sysctl-vm-overcommit-mem.conf
+        src: ../files/redis/10-redis-sysctl-vm-overcommit-mem.conf
         owner: root
         group: root
         mode: 0644
