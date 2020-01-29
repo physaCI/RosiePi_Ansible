@@ -16,16 +16,16 @@
             group: redis
             mode: 0640
 
-        - name: Create /lib/systemd/system/redis-server.service.d
+        - name: Create /etc/systemd/system/redis-server.service.d
           file:
-            path: /lib/systemd/system/redis-server.service.d
+            path: /etc/systemd/system/redis-server.service.d
             state: directory
             mode: 0755
 
         - name: Copy/update drop-in config for Redis systemd service file
           copy:
-            dest: /lib/systemd/system/redis-server.service.d/10-exec-start-post.conf
-            src: ../files/redis/10-exec-start-post.conf
+            dest: /etc/systemd/system/redis-server.service.d/10-redis-server-local.conf
+            src: ../files/redis/10-redis-server-local.conf
             owner: root
             group: root
             mode: 0644
