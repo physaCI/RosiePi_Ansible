@@ -3,8 +3,12 @@
 # - Handles tasks associated with RosiePi
 
 - hosts: localhost
+  become: yes
   tasks:
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
     - name: Issue reboot command
-      become: yes
       shell: shutdown --reboot +2 'Rebooting machine in 2 minutes.'
       when: not ansible_check_mode
