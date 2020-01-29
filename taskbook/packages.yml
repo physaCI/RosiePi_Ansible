@@ -9,8 +9,15 @@
       apt:
         name: [apache2, gettext, git, libapache2-mod-wsgi-py3, pmount, redis, virtualenv]
 
-    - name: Install pip packages
-      become_user: rosie-backend
-      pip:
-        name: [huffman, rq]
-        extra_args: --user
+    - name: Install pip packages for rosie-backend
+      block:
+        - name: Get User directory
+          shell:
+            cmd: 'getent passwd rosie-backend | cut -d : -f 6'
+          register: user_dir
+          check_mode: no
+
+        - name: Install pip packages
+          pip:
+            name: [huffman, rq]
+            extra_args: "--prefix={{ user_dir }}/.local"
