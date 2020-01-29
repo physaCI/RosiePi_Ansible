@@ -3,9 +3,9 @@
 # - Installs/upgrades required packages
 
 - hosts: localhost
+  become: true
   tasks:
     - name: Install apt packages
-      become: true
       apt:
         name: [apache2, gettext, git, libapache2-mod-wsgi-py3, pmount, redis, virtualenv]
 
