@@ -7,9 +7,10 @@
     - name: Install apt packages
       become: true
       apt:
-        name: [apache2, gettext, git, libapache2-mod-wsgi-py3, pmount, redis]
+        name: [apache2, gettext, git, libapache2-mod-wsgi-py3, pmount, redis, virtualenv]
 
     - name: Install pip packages
+      become_user: rosie-backend
       pip:
-        name: [huffman, rq, virtualenv]
-        extra_args: --system
+        name: [huffman, rq]
+        extra_args: --user
