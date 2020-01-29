@@ -5,22 +5,30 @@
 - hosts: localhost
   become: true
   tasks:
-    - name: Copy/update Redis config file
-      copy:
-        dest: /etc/redis/redis.conf
-        src: ../files/redis/redis.conf
-        force: yes
-        owner: redis
-        group: redis
-        mode: 0640
+    - name: Configure Redis
+      block:
+        - name: Copy/update Redis config file
+          copy:
+            dest: /etc/redis/redis.conf
+            src: ../files/redis/redis.conf
+            force: yes
+            owner: redis
+            group: redis
+            mode: 0640
 
-    - name: Copy/update drop-in config for Redis systemd service file
-      copy:
-        dest: /lib/systemd/system/redis-server.service.d/10-exec-start-post.conf
-        src: ../files/redis/10-exec-start-post.conf
-        owner: root
-        group: root
-        mode: 0644
+        - name: Create /lib/systemd/system/redis-server.service.d
+          file:
+            path: /lib/systemd/system/redis-server.service.d
+            state: directory
+            mode: 0755
+
+        - name: Copy/update drop-in config for Redis systemd service file
+          copy:
+            dest: /lib/systemd/system/redis-server.service.d/10-exec-start-post.conf
+            src: ../files/redis/10-exec-start-post.conf
+            owner: root
+            group: root
+            mode: 0644
 
     - name: Copy/update Kernel sysctl config file for Redis
       copy:
