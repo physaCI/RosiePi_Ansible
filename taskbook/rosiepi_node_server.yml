@@ -8,6 +8,14 @@
     www_rosie_dir: "/var/rosiepi_node_server"
 
   tasks:
+    - name: Create /var/rosiepi_node_server if necessary
+      file:
+        path: "{{ www_rosie_dir }}"
+        state: directory
+        owner: www-rosie
+        group: www-rosie
+        mode: 0750
+
     - name: Determine if www-rosie virtual environment exists
       command: "ls {{ www_rosie_dir }}/.venv"
       register: venv_exists
