@@ -22,7 +22,7 @@
 
     - name: Clone RosieApp
       git:
-        repo: 'https://github.com/sommersoft/RosiePiApp.git'
+        repo: 'https://github.com/sommersoft/RosiePi_Node_Server.git'
         dest: "{{ www_rosie_dir }}/node_server"
         accept_hostkey: yes
         depth: 1
