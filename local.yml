@@ -41,10 +41,6 @@
   import_playbook: taskbook/redis_rq.yml
 - name: Run circuitpython_build
   import_playbook: taskbook/circuitpython_build.yml
-#- name: Run pyenv
-#  import_playbook: taskbook/pyenv.yml
-#- name: Run git_repos
-#  import_playbook: taskbook/git_repos.yml
 - name: Run rosie_pi
   import_playbook: taskbook/rosie_pi.yml
 - name: Run rosie_app
