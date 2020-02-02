@@ -23,7 +23,7 @@
       ignore_errors: yes
 
     - name: Setup virtual environment if needed
-      command: "virtualenv {{ www_rosie_dir }}/.venv"
+      command: "virtualenv --python=python3 {{ www_rosie_dir }}/.venv"
       when:
         - venv_exists.stdout == ""
         - not ansible_check_mode
