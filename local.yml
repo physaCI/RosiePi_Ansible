@@ -45,6 +45,8 @@
   import_playbook: taskbook/rosie_pi.yml
 - name: Run rosie_app
   import_playbook: taskbook/rosiepi_node_server.yml
+- name: Run physaci_subscriber.yml
+  import_playbook: taskbook/physaci_subscriber.yml
 
 - name: Reboot
   import_playbook: taskbook/reboot.yml

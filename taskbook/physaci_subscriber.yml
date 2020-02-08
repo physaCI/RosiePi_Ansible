@@ -1,0 +1,64 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Handles tasks associated with physaCI_subscriber
+
+- hosts: localhost
+  become: true
+  vars:
+    physaci_sub_dir: "/var/physaci_subscriber"
+
+  tasks:
+    - name: Copy the physaCI subscriber config file if necessary
+      block:
+        - name: Ensure /etc/opt/physaci_sub directory exists
+          file:
+            path: /etc/opt/physaci_sub
+            state: directory
+            owner: rosie-backend
+            group: rosie-backend
+            mode: 0755
+        - name: Copy config file if it doesn't exist
+          copy:
+            dest: /etc/opt/physaci_sub/conf.ini
+            src: ../files/physaci_conf.txt
+            owner: rosie-backend
+            owner: rosie-backend
+            mode: 0755
+            force: no
+
+    - name: Create /var/physaci_subscriber if necessary
+      file:
+        path: "{{ physaci_sub_dir }}"
+        state: directory
+        owner: rosie-backend
+        group: rosie-backend
+        mode: 0755
+
+    - name: Determine if www-rosie virtual environment exists
+      command: "ls {{ physaci_sub_dir }}/.venv"
+      register: venv_exists
+      check_mode: no
+      ignore_errors: yes
+
+    - name: Setup virtual environment if needed
+      command: "virtualenv --python=python3 {{ physaci_sub_dir }}/.venv"
+      when:
+        - venv_exists.stdout == ""
+        - not ansible_check_mode
+
+    - name: Clone physaCI_subscriber
+      git:
+        repo: 'https://github.com/sommersoft/physaci_subscriber.git'
+        dest: "{{ physaci_sub_dir }}"
+        accept_hostkey: yes
+        depth: 1
+        version: initial # current dev branch
+
+    - name: pip install node_server into virtual environment
+      shell:
+        chdir: "{{ physaci_sub_dir }}"
+        executable: /usr/bin/bash
+        cmd: |
+          source .venv/bin/activate
+          pip3 install -e ./physaci_subscriber
+          deactivate
