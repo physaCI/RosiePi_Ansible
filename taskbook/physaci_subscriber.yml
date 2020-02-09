@@ -49,7 +49,7 @@
     - name: Clone physaCI_subscriber
       git:
         repo: 'https://github.com/sommersoft/physaci_subscriber.git'
-        dest: "{{ physaci_sub_dir }}"
+        dest: "{{ physaci_sub_dir }}/physaci_subscriber"
         accept_hostkey: yes
         depth: 1
         version: initial # current dev branch
