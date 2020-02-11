@@ -24,6 +24,6 @@
       cron:
         user: "rosie-backend"
         name: "physaCI registrar check-in"
-        job: "/var/physaci_subscriber/physaci_subscriber/send_subscription.sh"
+        job: "/var/physaci_subscriber/physaci_subscriber/send_subscription.sh 2>$1 | logger -t physaci_subscriber"
         special_time: hourly
         state: present
