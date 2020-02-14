@@ -62,3 +62,25 @@
           source .venv/bin/activate
           pip3 install -e ./physaci_subscriber
           deactivate
+
+    - name: Set ownership on /var/physaci_subscriber/physaci_subscriber directory
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+
+    - name: Set ownership on /var/physaci_subscriber/physaci_subscriber/src directory
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber/src"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+        recurse: yes
+
+    - name: Set ownership on /var/physaCI_subscriber/physaCI_subscriber/send_subscription.sh
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber/send_subscription.sh"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
