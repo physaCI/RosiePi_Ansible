@@ -53,6 +53,7 @@
         accept_hostkey: yes
         depth: 1
         version: initial # current dev branch
+        force: yes # required since chown below is considered modded worktree
 
     - name: pip install node_server into virtual environment
       shell:
