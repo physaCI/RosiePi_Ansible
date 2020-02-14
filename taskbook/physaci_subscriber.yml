@@ -47,7 +47,6 @@
         - not ansible_check_mode
 
     - name: Clone physaCI_subscriber
-      become: false
       git:
         repo: 'https://github.com/sommersoft/physaci_subscriber.git'
         dest: "{{ physaci_sub_dir }}/physaci_subscriber"
