@@ -55,7 +55,7 @@
         version: initial # current dev branch
         force: yes # required since chown below is considered modded worktree
 
-    - name: pip install node_server into virtual environment
+    - name: pip install physaCI_subscriber into virtual environment
       shell:
         chdir: "{{ physaci_sub_dir }}"
         executable: /usr/bin/bash
