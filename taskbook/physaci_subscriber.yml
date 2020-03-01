@@ -16,7 +16,7 @@
             state: directory
             owner: rosie-backend
             group: rosie-workers
-            mode: 0740
+            mode: 0744
         - name: Copy config file if it doesn't exist
           copy:
             dest: /etc/opt/physaci_sub/conf.ini
