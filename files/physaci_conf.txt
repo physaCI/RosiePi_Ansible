@@ -29,6 +29,13 @@ physaci_registrar_url=https://physaci-app.azurewebsites.net/api/testnode-hook/re
 api_access_key=
 
 
+[rosie_pi]
+## These are settings used by the RosiePi test program.
+
+# The boards connected to this RosiePi node, and available for testing.
+boards=metro_m4_express
+
+
 [node_server]
 ## These settings are used by and for the RosiePi node server
 
