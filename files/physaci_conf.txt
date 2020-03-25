@@ -13,7 +13,7 @@
 
 # The URL to send registrar subscriptions to. This should only be updated
 # at the direction of an physaCI admin.
-physaci_registrar_url=https://physaci-app.azurewebsites.net/api/testnode-hook/registrar/add
+physaci_url=https://physaci-app.azurewebsites.net/api/testnode-hook
 
 
 ## ------------------------------------------------------------------------- ##
