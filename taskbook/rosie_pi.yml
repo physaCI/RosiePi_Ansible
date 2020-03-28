@@ -23,5 +23,5 @@
     - name: pip RosiePi locally
       pip:
         name: "{{ user_dir.stdout }}/rosie_pi/."
-        editable: yes
+        state: forcereinstall
         extra_args: --user
