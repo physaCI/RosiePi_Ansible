@@ -18,6 +18,8 @@
           check_mode: no
 
         - name: Install pip packages
+          become_user: rosie-backend
           pip:
             name: [huffman, rq]
+            state: forcereinstall
             extra_args: "--prefix={{ user_dir.stdout }}/.local"
