@@ -4,6 +4,7 @@
 
 - hosts: localhost
   become: yes
+  become_user: rosie-backend
   tasks:
     - name: Get User directory
       shell:
