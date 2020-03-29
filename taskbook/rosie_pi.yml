@@ -4,7 +4,6 @@
 
 - hosts: localhost
   become: yes
-  become_user: rosie-backend
   tasks:
     - name: Get User directory
       shell:
@@ -25,4 +24,4 @@
       pip:
         name: "{{ user_dir.stdout }}/rosie_pi/."
         state: forcereinstall
-        extra_args: --user
+        extra_args: "--prefix={{ user_dir.stdout }}/.local"
