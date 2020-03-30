@@ -54,7 +54,7 @@
     - name: Clone CircuitPython
       git:
         repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit
-        dest: "{{ user_dir.stdout }}/"
+        dest: "{{ user_dir.stdout }}/circuitpython"
         accept_hostkey: yes
         depth: 1
         recursive: yes
