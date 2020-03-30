@@ -3,6 +3,7 @@
 # - Installs/upgrades required packages for building CircuitPython firmware
 
 - hosts: localhost
+  become: true
   vars:
     gcc_dl_url: "https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2019q4/RC2.1/gcc-arm-none-eabi-9-2019-q4-major-aarch64-linux.tar.bz2?revision=490085f7-6fa7-49d0-b860-f437916e05eb&la=en&hash=568E0D184DE11F1FE02538BABB850CA41BC7C1CD"
     gcc_dl_md5: "0dfa059aae18fcf7d842e30c525076a4"
@@ -43,7 +44,6 @@
           when: not ansible_check_mode
 
       when: gcc_9_installed.stdout == ""
-      become: true
 
     # clone the CircuitPython source
     - name: Get User directory
@@ -54,7 +54,7 @@
     - name: Clone CircuitPython
       git:
         repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit
-        dest: user_dir.stdout
+        dest: "{{ user_dir.stdout }}/"
         accept_hostkey: yes
         depth: 1
         recursive: yes
