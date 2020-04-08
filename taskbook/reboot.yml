@@ -5,6 +5,20 @@
 - hosts: localhost
   become: yes
   tasks:
+    - name: Get User directory
+      shell:
+        cmd: 'getent passwd rosie-backend | cut -d : -f 6'
+      register: user_dir
+      check_mode: no
+
+    - name: Reset ownership on rosie-backend python site-packages directory
+      file:
+        path: "{{ user_dir.stdout }}/.local/python3.7/site-packages"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+        recurse: yes
+
     - name: Reload systemd daemon
       systemd:
         daemon_reload: yes
