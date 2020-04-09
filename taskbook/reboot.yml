@@ -13,7 +13,7 @@
 
     - name: Reset ownership on rosie-backend python site-packages directory
       file:
-        path: "{{ user_dir.stdout }}/.local/python3.7/site-packages"
+        path: "{{ user_dir.stdout }}/.local/lib/python3.7/site-packages"
         owner: rosie-backend
         group: rosie-workers
         mode: 0750
