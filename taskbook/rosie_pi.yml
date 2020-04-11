@@ -24,4 +24,5 @@
       pip:
         name: "{{ user_dir.stdout }}/rosie_pi/."
         state: forcereinstall
-        extra_args: "--prefix={{ user_dir.stdout }}/.local"
+        virtualenv: "{{ user_dir.stdout }}/rosie_pi/rosie_venv"
+        virtualenv_command: virtualenv
