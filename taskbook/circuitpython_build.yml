@@ -57,5 +57,4 @@
         dest: "{{ user_dir.stdout }}/circuitpython"
         accept_hostkey: yes
         depth: 1
-        recursive: yes
         version: rosiepi_test # current rosiepi branch
