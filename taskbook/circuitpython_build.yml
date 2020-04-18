@@ -45,9 +45,7 @@
           when: not ansible_check_mode
 
         - name: Add /opt/arm-none-eabi-gcc/bin to backend's PATH
-          script: "-f ../files/arm_gcc_update_path.awk -v filepath={{ user_dir.stdout }}/.bashrc"
-          args:
-            executable: gawk
+          shell: "gawk -f ../files/arm_gcc_update_path.awk -v filepath={{ user_dir.stdout }}/.bashrc"
           when: not ansible_check_mode
 
       when: gcc_9_installed.stdout == ""
