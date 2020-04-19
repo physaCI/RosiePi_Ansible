@@ -44,9 +44,13 @@
               - --strip-components=1
           when: not ansible_check_mode
 
-        - name: Add /opt/arm-none-eabi-gcc/bin to backend's PATH
-          shell: "gawk -f ../files/arm_gcc_update_path.awk -v filepath={{ user_dir.stdout }}/.bashrc"
-          when: not ansible_check_mode
+        - name: Copy profile-source file to add arm-none-eabi-* to the PATH
+          copy:
+            dest: /etc/profile.d/02-arm-none-eabi-gcc-path.sh
+            src: ../files/02-arm-none-eabi-gcc-path.sh
+            owner: root
+            group: root
+            mode: 0644
 
       when: gcc_9_installed.stdout == ""
 
