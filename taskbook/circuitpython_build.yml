@@ -62,3 +62,11 @@
         accept_hostkey: yes
         depth: 1
         version: rosiepi_test # current rosiepi branch
+
+    - name: Set ownership on circuitpython directory
+      file:
+        path: "{{ user_dir.stdout }}/circuitpython"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+        recurse: yes
