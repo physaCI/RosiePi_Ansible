@@ -21,7 +21,7 @@
         executable: /usr/bin/bash
       register: gcc_9_installed
       check_mode: no
-      ignore_errors: yes
+      #ignore_errors: yes
 
     - name: Install GCC9 if necessary
       block:
