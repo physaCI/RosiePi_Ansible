@@ -64,6 +64,7 @@
         accept_hostkey: yes
         depth: 1
         version: rosiepi_test # current rosiepi branch
+        force: yes # required since chown below is considered modded worktree
 
     - name: Set ownership on circuitpython directory
       file:
