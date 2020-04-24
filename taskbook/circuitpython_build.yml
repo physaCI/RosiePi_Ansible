@@ -16,6 +16,7 @@
       register: user_dir
 
     - name: Check if GCC version 9 installed
+      become_flags: -i
       shell:
         cmd: $(which arm-none-eabi-gcc) --version 2>&1 | awk /9\.[[:digit:]]\.[[:digit:]]/
         executable: /usr/bin/bash
