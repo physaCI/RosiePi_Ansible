@@ -1,7 +1,8 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Handles tasks associated with RosiePi
+# - Reboots the node
 
+---
 - hosts: localhost
   become: yes
   tasks:

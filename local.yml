@@ -2,6 +2,7 @@
 # To be used with 'ansible-pull'
 # See the README for usage instructions.
 
+---
 - hosts: localhost
   pre_tasks:
     - name: Update apt package index

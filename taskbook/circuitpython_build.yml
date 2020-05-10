@@ -1,7 +1,8 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Installs/upgrades required packages for building CircuitPython firmware
+# - Installs/upgrades required packages for building CircuitPython firmware and clones the CircuitPython git repo
 
+---
 - hosts: localhost
   become: true
   vars:

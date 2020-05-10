@@ -1,7 +1,8 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Handles tasks associated with RosieApp
+# - Handles tasks associated with the RosiePi Node Server
 
+---
 - hosts: localhost
   become: true
   vars:

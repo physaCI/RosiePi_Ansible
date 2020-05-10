@@ -1,11 +1,12 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Installs/pulls necessary GitHub repositories
+# - Configures the Apache server
 
 # NOTES:
 #  - mod_authz_host can block by host; uses reverse dns lookup to verfiy
-#  - will likely use a VirtualHost approach, to not interfere with other possible Apache uses
+#  - uses a VirtualHost approach, to not interfere with other possible Apache uses
 
+---
 - hosts: localhost
   become: yes
 

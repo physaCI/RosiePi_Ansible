@@ -2,6 +2,7 @@
 # To be used with 'ansible-pull'
 # - Manages Redis and RQ configurations
 
+---
 - hosts: localhost
   become: true
   tasks:

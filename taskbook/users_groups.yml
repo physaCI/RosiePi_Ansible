@@ -1,7 +1,8 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Handles tasks associated with RosiePi
+# - Adds necessary users and groups
 
+---
 - hosts: localhost
   become: true
   tasks:
