@@ -33,6 +33,8 @@
   import_playbook: taskbook/users_groups.yml
 - name: Run cron
   import_playbook: taskbook/cron.yml
+- name: Run system_config
+  import_playbook: taskbook/system_config.yml
 - name: Run packages
   import_playbook: taskbook/packages.yml
 - name: Run apache_config
