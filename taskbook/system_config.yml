@@ -6,7 +6,7 @@
 - hosts: localhost
   become: yes
 
-  - name: Multipath: Blacklist SCSI sd* devices
+  - name: Blacklist SCSI sd* devices in Multipath
     blockinfile:
       path: /etc/multipath.conf
       block: |
