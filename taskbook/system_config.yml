@@ -6,10 +6,11 @@
 - hosts: localhost
   become: yes
 
-  - name: Blacklist SCSI sd* devices in Multipath
-    blockinfile:
-      path: /etc/multipath.conf
-      block: |
-        blacklist {
-            devnode "^sd[a-z]"    # ignore SCSI block devices
-        }
+  tasks:
+    - name: Blacklist SCSI sd* devices in Multipath
+      blockinfile:
+        path: /etc/multipath.conf
+        block: |
+          blacklist {
+              devnode "^sd[a-z]"    # ignore SCSI block devices
+          }
