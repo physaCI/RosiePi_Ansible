@@ -1,64 +1,65 @@
-RosiePi_Ansible
-================
-RaspberryPi Configuration Management For Running RosiePi.
+# RosiePi_Ansible
 
-This set of Ansible playbooks will initally setup a RaspberryPi to run
-the [RosiePi GitHub App](https://github.com/sommersoft/RosiePiApp.git) server and the [RosiePi test platform](https://github.com/sommersoft/RosiePi). It will also
-establish a cron job to run this same set of playbooks daily, so that the
-configuration stays up to date.
+## RaspberryPi Configuration Management For Running RosiePi.
 
-This collection of playbooks was designed with Ansible 2.8, and uses syntax/features
-that may not be available in previous versions.
+This set of Ansible playbooks will initally setup a RaspberryPi to run the [RosiePi test platform](https://github.com/physaCI/RosiePi), [RosiePi Node Server](https://github.com/physaCI/RosiePi_Node_Server), and the [physaCI subscriber](https://github.com/physaCI/physaCI_subscriber) utility.
 
-Usage
------
-On a RaspberryPi 3B+ (requires 64-bit; untested on RPi4):
-- Create a bootable system, using Ubuntu Server 19.04 (Disco). Disco includes
-  the necessary version of gcc-arm-none-eabi to build circuitpython, and removes
-  the nigh-impossible step of compiling gcc-arm for aarch64/arm64. The image
-  can be found at the following address; select the ``preinstalled-server-arm64+raspi3``
-  version:
-  http://cdimage.ubuntu.com/ubuntu/releases/disco/release/
+It will also establish a cron job to run this same set of playbooks regularly, so that the configuration stays up to date.
 
-- Create a user `rosie`, with passwordless sudo privileges. Run the following
-  logged in as `rosie`.
+This collection of playbooks was designed with Ansible 2.8+, and uses syntax/features that may not be available in previous versions.
+
+## Usage
+----
+This configuration has been designed within the following system. It may work under different system constructs, but it is not guaranteed.
+- Raspberry Pi 3B+ or newer
+
+- 64-bit OS. Ubuntu Server 19.10 (Eoan) and newer has been used. Ubuntu Raspberry Pi images can be found at the following address; select the `preinstalled-server-arm64+*` version: http://cdimage.ubuntu.com/ubuntu/release
+
+On a Raspberry Pi:
+- Create a bootable 64-bit system.
+
+- Create a user with sudo privileges. Run the following steps logged in as that user.
+
+- Since your Raspberry Pi will be running a public-facing web server, it is highly advised to setup the following hardening settings. The Ansible playbooks that will be initially run here, and as a scheduled `cron` job, will not configure these.
+
+  - Filesystem Access Control Lists (ACL): https://help.ubuntu.com/community/FilePermissionsACLs
+  - Firewall:
+  - fail2ban:
+  - Restrict SSH login:
 
 - Install Ansible:
-  - We need to add the PPA repository to get the latest Ansible, and
-    then install Ansible itself. Instructions come from:
-    https://docs.ansible.com/latest/installation_guide/intro_installation.html#id18
+  - We will install Ansible for CPython 3. If you have not already done so, install pip, and then reboot:
 
-    Add the following to `/etc/apt/sources.list`:
     ```shell
-    ## apt source for Ansible
-    deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main
+    sudo apt-get install python3-pip
     ```
 
-    Now we can install Ansible itself.
+  - Now install the Ansible package:
+
     ```shell
-    sudo apt-key adv --keyserver kerserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-    sudo apt update
-    sudo apt install ansible
+    pip3 install ansible
     ```
 
-- Lastly, run the Ansible playbooks. Ansible is primarily used as a "push based"
-  configuration manager. However, it can be used as a "pull based" system.
-  That is how we will use it:
-  ```shell
-  ansible-pull -U https://github.com/sommersoft/RosiePi_Ansible.git -e "ansible_python_interpreter=/usr/bin/python3"
-  ```
-  _Note: the quotation marks with the `-e` argument are required._
+  - Logout and log back in to make the installed package available.
 
-- The last Ansible play issues a system reboot, scheduled for 2 minutes into
-  the future. If you accomplish the next step prior to that, the system will
-  be fully operational upon restarting.
+- Run The Ansible Playbooks:
+  - Ansible is primarily used as a "push based" configuration manager. However, it can be used as a "pull based" system. That is how we will use it:
 
-- Create the `.env` file in `/home/rosie/rosie_app/RosiePiApp/` that contains
-  the RosieApp secrets. Contact the RosieApp admin for the necessary info. See
-  Step 4 in:
-  https://developer.github.com/apps/quickstart-guides/setting-up-your-development-environment/#step-4-prepare-the-runtime-environment
+    ```shell
+    ansible-pull -U https://github.com/physaCI/RosiePi_Ansible.git
+    ```
 
-  _Note: if this is not accomplished before the reboot, the RosiePiApp service
-         that runs through ``systemd`` will need to be restarted. A simple way
-         to accomplish this: reboot the system. Otherwise, read the ``systemd``
-         manual for restarting a service._
+    _Notes:
+      - If user does not have `sNOPASSWD` sudo privileges, use the `-K/--ask-become-pass` option. You will need to attend to the installation process, as it will ask for a password several times.
+      - To enable more verbose output, add `-v` to the command. Multiple `v`'s increase verbosity (e.g. `-vvv`)._
+
+  - The last Ansible play issues a system reboot, scheduled for 2 minutes into the future. If you accomplish the next step prior to that, the system will be fully operational upon restarting. The reboot can be canceled if desired via `shutdown -c`.
+
+- Update The Configuration:
+  - There is a shared configuration for communicating with the physaCI servers and RosiePi test runner. There are values that will need to be supplied before the system as a whole will operate. The configuration file is in the INI-style format (`[section] key=value`).
+
+  - Open `/etc/opt/physaci_sub/conf.ini` with a text editor (`nano`, `vi`, etc.)
+
+  - Update the following fields: ([section] key: value)
+    - `[physaci]` `api_access_key`: Enter the access key supplied by the physaCI administrator.
+    - `[rosie_pi]` `boards`: Enter a comma separated list of CircuitPython boards that are attached to the RosiePi node to be tested.
