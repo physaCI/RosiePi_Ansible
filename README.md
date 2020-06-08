@@ -18,14 +18,14 @@ This configuration has been designed within the following system. It may work un
 On a Raspberry Pi:
 - Create a bootable 64-bit system.
 
-- Create a user with sudo privileges. Run the following steps logged in as that user.
-
 - Since your Raspberry Pi will be running a public-facing web server, it is highly advised to setup the following hardening settings. The Ansible playbooks that will be initially run here, and as a scheduled `cron` job, will not configure these.
 
   - Filesystem Access Control Lists (ACL): https://help.ubuntu.com/community/FilePermissionsACLs
   - Firewall:
   - fail2ban:
   - Restrict SSH login:
+
+- Create a user with sudo privileges. Run the following steps logged in as that user.
 
 - Install Ansible:
   - We will install Ansible for CPython 3. If you have not already done so, install pip, and then reboot:
@@ -49,9 +49,9 @@ On a Raspberry Pi:
     ansible-pull -U https://github.com/physaCI/RosiePi_Ansible.git
     ```
 
-    _Notes:
-      - If user does not have `sNOPASSWD` sudo privileges, use the `-K/--ask-become-pass` option. You will need to attend to the installation process, as it will ask for a password several times.
-      - To enable more verbose output, add `-v` to the command. Multiple `v`'s increase verbosity (e.g. `-vvv`)._
+    _Notes:_
+      - _If user does not have `NOPASSWD` sudo privileges, use the `-K/--ask-become-pass` option. You will need to attend to the installation process, as it will ask for a password several times._
+      - _To enable more verbose output, add `-v` to the command. Multiple `v`'s increase verbosity (e.g. `-vvv`)._
 
   - The last Ansible play issues a system reboot, scheduled for 2 minutes into the future. If you accomplish the next step prior to that, the system will be fully operational upon restarting. The reboot can be canceled if desired via `shutdown -c`.
 
