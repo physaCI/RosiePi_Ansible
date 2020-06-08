@@ -1,0 +1,48 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Adds necessary users and groups
+
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Ensure user "rosie-ansible" w/sudoers settings
+      block:
+        - name: Ensure user "rosie-ansible"
+          user:
+            name: rosie-ansible
+            create_home: no
+            system: yes
+
+        - name: Ensure "rosie-ansible" sudoer settings
+          copy:
+            dest: /etc/sudoers.d/rosiepi-ansible
+            src: ../files/sudoers-ansible
+            owner: root
+            group: root
+            mode: 0440
+            validate: /usr/sbin/visudo -csf %s
+
+    - name: Ensure group "rosie-workers"
+      group:
+        name: rosie-workers
+        state: present
+
+    - name: Ensure group "www-rosie"
+      group:
+        name: www-rosie
+        state: present
+
+    - name: Ensure user "rosie-backend"
+      user:
+        name: rosie-backend
+        groups: rosie-workers,www-rosie,plugdev,dialout
+        password_lock: yes
+        system: yes
+
+    - name: Ensure user "www-rosie"
+      user:
+        name: www-rosie
+        group: www-rosie
+        password_lock: yes
+        system: yes

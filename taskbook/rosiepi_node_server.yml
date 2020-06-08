@@ -1,0 +1,47 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Handles tasks associated with the RosiePi Node Server
+
+---
+- hosts: localhost
+  become: true
+  vars:
+    www_rosie_dir: "/var/rosiepi_node_server"
+
+  tasks:
+    - name: Create /var/rosiepi_node_server if necessary
+      file:
+        path: "{{ www_rosie_dir }}"
+        state: directory
+        owner: www-rosie
+        group: www-rosie
+        mode: 0755
+
+    - name: Determine if www-rosie virtual environment exists
+      command: "ls {{ www_rosie_dir }}/.venv"
+      register: venv_exists
+      check_mode: no
+      ignore_errors: yes
+
+    - name: Setup virtual environment if needed
+      command: "virtualenv --python=python3 {{ www_rosie_dir }}/.venv"
+      when:
+        - venv_exists.stdout == ""
+        - not ansible_check_mode
+
+    - name: Clone RosieApp
+      git:
+        repo: 'https://github.com/sommersoft/RosiePi_Node_Server.git'
+        dest: "{{ www_rosie_dir }}/node_server"
+        accept_hostkey: yes
+        depth: 1
+        version: azure_version # current dev branch
+
+    - name: pip install node_server into virtual environment
+      shell:
+        chdir: "{{ www_rosie_dir }}"
+        executable: /usr/bin/bash
+        cmd: |
+          source .venv/bin/activate
+          pip3 install -e ./node_server
+          deactivate

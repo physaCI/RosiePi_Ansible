@@ -1,0 +1,88 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Handles tasks associated with physaCI_subscriber
+
+---
+- hosts: localhost
+  become: true
+  vars:
+    physaci_sub_dir: "/var/physaci_subscriber"
+
+  tasks:
+    - name: Copy the physaCI subscriber config file if necessary
+      block:
+        - name: Ensure /etc/opt/physaci_sub directory exists
+          file:
+            path: /etc/opt/physaci_sub
+            state: directory
+            owner: rosie-backend
+            group: rosie-workers
+            mode: 0755
+        - name: Copy config file if it doesn't exist
+          copy:
+            dest: /etc/opt/physaci_sub/conf.ini
+            src: ../files/physaci_conf.txt
+            owner: rosie-backend
+            group: www-rosie
+            mode: 0740
+            force: no
+
+    - name: Create /var/physaci_subscriber if necessary
+      file:
+        path: "{{ physaci_sub_dir }}"
+        state: directory
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0755
+
+    - name: Determine if www-rosie virtual environment exists
+      command: "ls {{ physaci_sub_dir }}/.venv"
+      register: venv_exists
+      check_mode: no
+      ignore_errors: yes
+
+    - name: Setup virtual environment if needed
+      command: "virtualenv --python=python3 {{ physaci_sub_dir }}/.venv"
+      when:
+        - venv_exists.stdout == ""
+        - not ansible_check_mode
+
+    - name: Clone physaCI_subscriber
+      git:
+        repo: 'https://github.com/sommersoft/physaci_subscriber.git'
+        dest: "{{ physaci_sub_dir }}/physaci_subscriber"
+        accept_hostkey: yes
+        depth: 1
+        version: initial # current dev branch
+        force: yes # required since chown below is considered modded worktree
+
+    - name: pip install physaCI_subscriber into virtual environment
+      shell:
+        chdir: "{{ physaci_sub_dir }}"
+        executable: /usr/bin/bash
+        cmd: |
+          source .venv/bin/activate
+          pip3 install -e ./physaci_subscriber
+          deactivate
+
+    - name: Set ownership on /var/physaci_subscriber/physaci_subscriber directory
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+
+    - name: Set ownership on /var/physaci_subscriber/physaci_subscriber/src directory
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber/src"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+        recurse: yes
+
+    - name: Set ownership on /var/physaCI_subscriber/physaCI_subscriber/send_subscription.sh
+      file:
+        path: "{{ physaci_sub_dir }}/physaci_subscriber/send_subscription.sh"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750

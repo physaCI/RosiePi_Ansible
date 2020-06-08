@@ -1,0 +1,56 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Manages Redis and RQ configurations
+
+---
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Configure Redis
+      block:
+        - name: Copy/update Redis config file
+          copy:
+            dest: /etc/redis/redis.conf
+            src: ../files/redis/redis.conf
+            force: yes
+            owner: redis
+            group: redis
+            mode: 0640
+
+        - name: Create /etc/systemd/system/redis-server.service.d
+          file:
+            path: /etc/systemd/system/redis-server.service.d
+            state: directory
+            mode: 0755
+
+        - name: Copy/update drop-in config for Redis systemd service file
+          copy:
+            dest: /etc/systemd/system/redis-server.service.d/10-redis-server-local.conf
+            src: ../files/redis/10-redis-server-local.conf
+            owner: root
+            group: root
+            mode: 0644
+
+    - name: Copy/update Kernel sysctl config file for Redis
+      copy:
+        dest: /etc/sysctl.d/10-redis-sysctl-vm-overcommit-mem.conf
+        src: ../files/redis/10-redis-sysctl-vm-overcommit-mem.conf
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Ensure RQ worker systemd is setup properly
+      block:
+        - name: Copy/update rosie-rq-worker service unit file
+          copy:
+            dest: /etc/systemd/system/rosie-rq-worker.service
+            src: ../files/rosie-rq-worker.service
+            owner: root
+            group: root
+            mode: 0644
+
+        - name: Reload systemd daemon and ensure rosie-rq-worker is enabled
+          systemd:
+            name: rosie-rq-worker
+            daemon_reload: yes
+            enabled: yes

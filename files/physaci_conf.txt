@@ -1,0 +1,51 @@
+##
+## physaCI/RosiePi Shared Configuration
+##
+## DO NOT DELETE this file. Make a config file containing the non-local sections,
+## and update the 'config_file' location in this file.
+
+[local]
+## These values cannot be overridden in a separate configuration file.
+
+# If a different configuration file location is desired, uncomment and
+# update to the new config file location.
+#config_file=/etc/opt/physaci_sub/conf.ini
+
+# The URL to send registrar subscriptions to. This should only be updated
+# at the direction of an physaCI admin.
+physaci_url=https://physaci-app.azurewebsites.net/api/testnode-hook
+
+
+## ------------------------------------------------------------------------- ##
+#  If specifying a different configuration file location, the sections below  #
+#  can be set in the new location.                                            #
+## ------------------------------------------------------------------------- ##
+
+
+[physaci]
+## These are settings used to communicate with the physaCI REST API.
+
+# The API Access key received from the physaCI admin.
+api_access_key=
+
+
+[rosie_pi]
+## These are settings used by the RosiePi test program.
+
+# The boards connected to this RosiePi node, and available for testing.
+boards=metro_m4_express
+
+
+[node_server]
+## These settings are used by and for the RosiePi node server
+
+# The port that RosiePi's node server is listening to.
+listen_port=4812
+
+# The secret key used in HTTP Signature authorization when notifications are
+# sent from physaCI to the node. This is to ensure that unauthorized requests
+# are not processed, and that messages can be end-to-end trusted.
+# DO NOT MANUALLY EDIT THIS VALUE!
+#   It is set automatically by the scheduled physaCI subscriber program.
+# DO NOT MANUALLY EDIT THIS VALUE!
+node_sig_key=

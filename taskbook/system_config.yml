@@ -1,0 +1,16 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Configure miscellaneous system functions
+---
+
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Blacklist SCSI sd* devices in Multipath
+      blockinfile:
+        path: /etc/multipath.conf
+        block: |
+          blacklist {
+              devnode "^sd[a-z]"    # ignore SCSI block devices
+          }

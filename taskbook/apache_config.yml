@@ -1,0 +1,55 @@
+# RosiePi Ansible Playbook
+# To be used with 'ansible-pull'
+# - Configures the Apache server
+
+# NOTES:
+#  - mod_authz_host can block by host; uses reverse dns lookup to verfiy
+#  - uses a VirtualHost approach, to not interfere with other possible Apache uses
+
+---
+- hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Copy Apache global config files
+      block:
+        - name: Replace Apache global config with RosiePi version
+          copy:
+            dest: /etc/apache2/apache2.conf
+            src: ../files/apache2/apache2.conf
+            force: yes
+
+        - name: Replace Apache ports config with RosiePi version
+          copy:
+            dest: /etc/apache2/ports.conf
+            src: ../files/apache2/ports.conf
+            force: yes
+
+    - name: Ensure Apache default site is disabled
+      block:
+        - name: Check Apache sites-enabled
+          command: ls /etc/apache2/sites-enabled
+          register: sites_enabled
+          check_mode: no
+
+        - name: Disable Apache default site, if enabled
+          command: a2dissite 000-default
+          register: disable_default
+          when: sites_enabled.stdout.find('000-default.conf') != -1
+
+    - name: Copy/update RosiePi node_server VirtualHost files
+      block:
+        - name: Copy rosiepi_node_server_vhost.conf
+          copy:
+            dest: /etc/apache2/sites-available/rosiepi_node_server.conf
+            src: ../files/apache2/rosiepi_node_server_vhost.conf
+            force: yes
+
+        - name: Copy rosiepi_node_server WSGI
+          copy:
+            dest: /var/rosiepi_node_server/
+            src: ../files/apache2/rosiepi_node_server.wsgi
+            force: yes
+
+        - name: Enable RosiePi node_server site
+          command: a2ensite rosiepi_node_server

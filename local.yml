@@ -2,46 +2,54 @@
 # To be used with 'ansible-pull'
 # See the README for usage instructions.
 
+---
 - hosts: localhost
-  #become: true
   pre_tasks:
     - name: Update apt package index
-      become: true
-      apt: update_cache=yes
-      changed_when: False
+      become: yes
+      apt:
+        update_cache: yes
+      changed_when: false
 
-    - name: Ensure smee service is stopped
+    - name: Ensure services are stopped
+      become: yes
+      check_mode: no
       block:
-        - name: Stop smee service
+        - name: Ensure httpd is stopped
+          command: apache2ctl -k graceful-stop
+        - name: Ensure redis-server is stopped
           systemd:
-            name: smee_client.service
+            name: redis
             state: stopped
-            scope: system
-
-        - name: Stop rosieapp service
+        - name: Ensure rosie-rq-worker is stopped
           systemd:
-            name: rosieapp.service
+            name: rosie-rq-worker
             state: stopped
-            scope: system
       rescue:
         - debug:
-            msg: "stopping smee and rosieapp services resulted in: {{ ansible_failed_result }}"
+            msg: "{{ ansible_failed_task }}"
+      ignore_errors: yes
 
+- name: Run users_groups
+  import_playbook: taskbook/users_groups.yml
 - name: Run cron
   import_playbook: taskbook/cron.yml
+- name: Run system_config
+  import_playbook: taskbook/system_config.yml
 - name: Run packages
   import_playbook: taskbook/packages.yml
+- name: Run apache_config
+  import_playbook: taskbook/apache_config.yml
+- name: Run redis_rq
+  import_playbook: taskbook/redis_rq.yml
 - name: Run circuitpython_build
   import_playbook: taskbook/circuitpython_build.yml
-#- name: Run pyenv
-#  import_playbook: taskbook/pyenv.yml
-- name: Run git_repos
-  import_playbook: taskbook/git_repos.yml
 - name: Run rosie_pi
   import_playbook: taskbook/rosie_pi.yml
 - name: Run rosie_app
-  import_playbook: taskbook/rosie_app.yml
+  import_playbook: taskbook/rosiepi_node_server.yml
+- name: Run physaci_subscriber.yml
+  import_playbook: taskbook/physaci_subscriber.yml
 
-# now reboot the machine (primarily so that 'pyenv' is available in the PATH)
 - name: Reboot
   import_playbook: taskbook/reboot.yml

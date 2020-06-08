@@ -1,0 +1,19 @@
+[Unit]
+Description=RQ Worker For Rosie
+After=network.target
+
+[Service]
+User=rosie-backend
+Type=simple
+WorkingDirectory=/home/rosie-backend
+Environment=LANG=en_US.UTF-8
+Environment=LC_ALL=en_US.UTF-8
+Environment=LC_LANG=en_US.UTF-8
+ExecStart=/home/rosie-backend/.local/bin/rq worker rosiepi
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+Restart=Always
+
+[Install]
+WantedBy=multi-user.target

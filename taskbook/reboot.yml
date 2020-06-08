@@ -1,9 +1,29 @@
 # RosiePi Ansible Playbook
 # To be used with 'ansible-pull'
-# - Handles tasks associated with RosiePi
+# - Reboots the node
 
+---
 - hosts: localhost
+  become: yes
   tasks:
+    - name: Get User directory
+      shell:
+        cmd: 'getent passwd rosie-backend | cut -d : -f 6'
+      register: user_dir
+      check_mode: no
+
+    - name: Reset ownership on rosie-backend python site-packages directory
+      file:
+        path: "{{ user_dir.stdout }}/.local/lib/python3.7/site-packages"
+        owner: rosie-backend
+        group: rosie-workers
+        mode: 0750
+        recurse: yes
+
+    - name: Reload systemd daemon
+      systemd:
+        daemon_reload: yes
+
     - name: Issue reboot command
-      become: yes
       shell: shutdown --reboot +2 'Rebooting machine in 2 minutes.'
+      when: not ansible_check_mode
