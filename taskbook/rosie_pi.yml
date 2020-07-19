@@ -19,7 +19,7 @@
         accept_hostkey: yes
         depth: 1
         recursive: yes
-        version: dev_v2 # current dev branch
+        version: pytest_ify # current dev branch
 
     - name: pip RosiePi locally
       pip:

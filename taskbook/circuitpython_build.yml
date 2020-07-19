@@ -11,11 +11,6 @@
     gcc_dl_filename: "gcc-arm-none-eabi-9-2019-q4-major-aarch64-linux.tar.bz2"
 
   tasks:
-    - name: Get User directory
-      shell:
-        cmd: 'getent passwd rosie-backend | cut -d : -f 6'
-      register: user_dir
-
     - name: Check if GCC version 9 installed
       become_flags: -i
       shell:
@@ -58,21 +53,3 @@
             mode: 0644
 
       when: gcc_9_installed.stdout == ""
-
-    # clone the CircuitPython source
-    - name: Clone CircuitPython
-      git:
-        repo: 'https://github.com/sommersoft/circuitpython.git' # TODO: change to adafruit
-        dest: "{{ user_dir.stdout }}/circuitpython"
-        accept_hostkey: yes
-        depth: 1
-        version: rosiepi_test # current rosiepi branch
-        force: yes # required since chown below is considered modded worktree
-
-    - name: Set ownership on circuitpython directory
-      file:
-        path: "{{ user_dir.stdout }}/circuitpython"
-        owner: rosie-backend
-        group: rosie-workers
-        mode: 0750
-        recurse: yes
